@@ -1,3 +1,7 @@
+# Author: Jannicke Pearkes
+# Purpose: Normalizes and shuffles training data for the Higgs Challenge 
+
+
 import os
 import sys
 import time

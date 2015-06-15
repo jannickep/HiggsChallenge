@@ -1,5 +1,6 @@
 #top_5p.py
-# take only top 5% of data and save as output array
+# Author: Jannicke Pearkes
+# Purpose: take only top 5% of data and save as output array
 # note, must be run after output_parser.py
 
 import cPickle

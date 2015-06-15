@@ -1,3 +1,6 @@
+# Author: Jannicke Pearkes
+# Purpose: Plots the raw data from the Higgs Challenge
+
 __docformat__ = 'restructedtext en'
 
 import cPickle

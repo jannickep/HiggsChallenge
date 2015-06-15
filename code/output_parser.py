@@ -1,3 +1,7 @@
+# Author: Jannicke Pearkes
+# Purpose: Parses the output files from the batch scheduler for results
+
+
 import re,sys,glob
 import numpy as np
 import cPickle

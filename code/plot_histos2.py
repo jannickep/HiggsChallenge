@@ -1,3 +1,6 @@
+# Author: Jannicke Pearkes
+# Purpose: Plotting histograms of machine learning performance
+
 t__ = 'restructedtext en'
 
 import cPickle

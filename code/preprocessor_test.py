@@ -1,3 +1,6 @@
+#Author: Jannicke Pearkes
+#Purpose: Normalizes and weights the test data set for the Higgs Challenge
+
 import os
 import sys
 import time
@@ -12,7 +15,6 @@ import numpy as np
 import theano.tensor as T
 import cPickle
 
-#TODO: In future can use as input argument
 
 
 raw_data = list(csv.reader(open("../data/test.csv","rb"), delimiter=','))

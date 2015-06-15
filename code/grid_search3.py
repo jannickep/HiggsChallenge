@@ -1,6 +1,6 @@
 '''
 Grid Search 3
-Jannicke Pearkes
+Author: Jannicke Pearkes
 jpearkes@uvic.ca
 Purpose: submit jobs to a batch scheduler to perform a grid search on the hyper parameters for the stacked denoising autoencoder
 '''

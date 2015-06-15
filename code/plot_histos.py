@@ -1,3 +1,6 @@
+# Author: Jannicke Pearkes
+# Purpose: Plots histograms of the performance of the neural networks
+
 #plot_histos.py
 t__ = 'restructedtext en'
 

@@ -1,3 +1,6 @@
+# Author: Jannicke Pearkes
+# Purpose: To evaluate the relative change in hyperparameters according to performance
+
 import numpy
 import cPickle
 import subprocess

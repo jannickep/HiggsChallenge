@@ -1,3 +1,6 @@
+#Author: Jannicke Pearkes
+#Purpose: Plot histograms of all hyperparameters
+
 import subprocess
 
 talk ="starting \n"

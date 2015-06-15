@@ -1,3 +1,6 @@
+# Author: Jannicke Pearkes
+# Purpose: Makes plots of hyperparameters all on one page (looks messy)
+
 import cPickle
 import gzip
 import os
