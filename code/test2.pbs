@@ -1,0 +1,8 @@
+#PBS -N job_name
+#PBS -l walltime=0:03:00
+#PBS -l mem=1mb
+#PBS -l nodes=1:ppn=1
+#PBS -j oe
+
+echo "Hello!"
+

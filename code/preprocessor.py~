@@ -1,0 +1,105 @@
+import os
+import sys
+import time
+
+import numpy
+
+import theano
+import theano.tensor as T
+import random,string,math,csv
+import scipy.linalg.blas
+import numpy as np
+import theano.tensor as T
+import cPickle
+
+#TODO: In future can use as input argument
+train_p = .80
+valid_p = .90
+test_p = 1
+
+raw_data = list(csv.reader(open("../data/training.csv","rb"), delimiter=','))
+num_rows = len(raw_data)-1
+header = list(raw_data[0])
+
+x_raw = np.array([map(float, row[1:-2]) for row in raw_data[1:]])
+y_raw = np.array([map(str, row[-1]) for row in raw_data[1:]])
+w_raw = np.array([float(row[-2]) for row in raw_data[1:]])
+
+y_raw = np.where(y_raw == 's', 1,0).flatten()
+
+print "Normalizing ..."
+m,n = x_raw.shape
+print 'x_raw shape:'
+print  x_raw.shape
+sum_x = np.zeros(n)
+count = np.zeros(n)
+mean = np.zeros(n)
+std = np.zeros(n)
+x_new = np.zeros((m,n))
+x_calc = np.zeros((m,n))
+#print count
+
+# input valid data into array
+for col in range(0,n):
+    for row in range(0,m):
+        if (x_raw[row][col] != -9.99000000e+02):
+             x_calc[count[col]][col] = x_raw[row][col]
+             count[col] = count[col]+1
+#print 'x_calc:' 
+#print repr(x_calc)
+#print repr(count)
+#print 'x_raw:' 
+#print repr(x_raw)
+
+
+# calculate mean and standard deviation for valid data
+for n in range (0,n):
+    mean[n] = np.mean(x_calc[0:count[n],n])
+    std[n] = np.std(x_calc[0:count[n],n])
+print 'mean'
+print repr(mean)
+print 'std'
+print repr(std)
+
+
+for col in range(0,n):
+    for row in range(0,m):
+        if ((x_raw[row][col] != -9.99000000e+02) and (std[col]!= 0)): # std being zero would create a nan
+            x_new[row][col] = (x_raw[row][col]-mean[col])/std[col] 
+print repr(x_new)
+           
+train_set_x = x_new[0:int(m*train_p)]
+valid_set_x = x_new[int(m*train_p):int(m*valid_p)]
+test_set_x = x_new[int(m*valid_p):int(m*test_p)]
+
+train_set_y = y_raw[0:int(m*train_p)]
+valid_set_y = y_raw[int(m*train_p):int(m*valid_p)]
+test_set_y = y_raw[int(m*valid_p):int(m*test_p)]
+
+train_set_w = w_raw[0:int(m*train_p)]
+valid_set_w = w_raw[int(m*train_p):int(m*valid_p)]
+test_set_w = w_raw[int(m*valid_p):int(m*test_p)]
+
+train_set = train_set_x, train_set_y, train_set_w 
+valid_set = valid_set_x, valid_set_y, valid_set_w
+test_set = test_set_x, test_set_y, test_set_w
+
+data = train_set, valid_set, test_set
+cPickle.dump( data, open( "data.p", "wb" ) )
+
+'''
+submission = np.array(([str (','.join (map (str, (x_new[tI,:]) ) ) ),
+                            str(w_raw[tI]),
+                            str(','.join(map(str, y_raw[tI])))]  
+                            for tI in range(len(y_raw))))
+print("header is being added")
+print 'header dim' 
+headery = np.asarray(header)
+print headery.shape
+print 'submission dim' 
+print submission.shape 
+submission = np.append([np.asarray(header)], submission, axis=0)
+print('submission is being saved')
+np.savetxt("test_processed.csv",submission,fmt='%s',delimiter=',')
+'''
+print('complete')
