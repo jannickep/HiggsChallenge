@@ -2,19 +2,6 @@
 Theano Tutorial: Logistic Regression
 Modified to work with the Kaggle Higgs Challenge
 Modified by: Jannicke Pearkes, jpearkes@uvic.ca
-
-Logistic regression is a probabilistic, linear classifier. It is parametrized
-by a weight matrix :math:`W` and a bias vector :math:`b`. Classification is
-done by projecting data points onto a set of hyperplanes, the distance to
-which is used to determine a class membership probability.
-
-.. math::
-  P(Y=i|x, W,b) &= softmax_i(W x + b) \\
-                &= \frac {e^{W_i x + b_i}} {\sum_j e^{W_j x + b_j}}
-
-.. math::
-
-  y_{pred} = argmax_i P(Y=i|x,W,b)
 """
 __docformat__ = 'restructedtext en'
 
@@ -31,7 +18,6 @@ import theano.tensor as T
 from random import shuffle
 
 class LogisticRegression(object):
-
     def __init__(self, input, n_in, n_out):
 
         # initialize with 0 the weights W as a matrix of shape (n_in, n_out)
@@ -43,8 +29,7 @@ class LogisticRegression(object):
             name='W',
             borrow=True
         )
-
-                 
+              
         # initialize the basis b as a vector of n_out 0s
         self.b = theano.shared(
             value=numpy.zeros(
@@ -86,13 +71,11 @@ class LogisticRegression(object):
         else:
             raise NotImplementedError()
             
-
 def load_data():
 
     #############
     # LOAD DATA #
-    #############
-    
+    #############  
 
     def shared_dataset(data_xy, borrow=True):
         data_x, data_y, data_w = data_xy
@@ -357,14 +340,26 @@ def sgd_optimization(learning_rate, n_epochs,
 
 if __name__ == '__main__':
     if len(sys.argv)>1:
-        print "Using given values"
+        print "Using passed values"
         name,learning_rate,n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold = sys.argv
-        sgd_optimization(float(learning_rate), int(n_epochs), int(batch_size), 
-                         int(patience), int(patience_increase),
-                         int (improvement_threshold), int (submit_threshold))
+        parameters = dict(
+            learning_rate = float(learning_rate), 
+            n_epochs = int(n_epochs),
+            batch_size =  int(batch_size), 
+            patience = int(patience),
+            patience_increase = int(patience_increase),
+            improvement_threshold = int (improvement_threshold),
+            submit_threshold =  int (submit_threshold))
+        sgd_optimization(**parameters)
+        
     else:
         print "Using hard-coded values"
-        sgd_optimization(learning_rate = 0.13, n_epochs = 1000,
-                           batch_size = 600, patience = 5000, 
-                           patience_increase = 2, improvement_threshold = 0.995,
-                           submit_threshold = 0.5)
+        parameters = dict(
+            learning_rate = 0.13, 
+            n_epochs = 1000,
+            batch_size = 600,
+            patience = 5000, 
+            patience_increase = 2,
+            improvement_threshold = 0.995,
+            submit_threshold = 0.5)
+        sgd_optimization(**parameters)

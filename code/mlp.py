@@ -6,7 +6,6 @@ jpearkes@uvic.ca
 Purpose: Implements a single layer neural network 
 """
 __docformat__ = 'restructedtext en'
-#hello
 
 import os
 import sys
@@ -23,9 +22,7 @@ import theano.tensor as T
 from logistic_sgd import LogisticRegression, load_data
 import getopt
 
-#from sklearn import preprocessin
 
-# start-snippet-1
 class HiddenLayer(object):
     def __init__(self, rng, input, n_in, n_out, W=None, b=None,
                  activation=T.tanh):
@@ -58,7 +55,7 @@ class HiddenLayer(object):
        return T.tanh(T.dot(x, self.W) + self.b)
 
 
-# start-snippet-2
+
 class MLP(object):
     """Multi-Layer Perceptron Class
     """
@@ -100,12 +97,6 @@ class MLP(object):
         z = self.logRegressionLayer.output(y)
         print "z"
         #print z
-        # Recursively compute output 
-        #shared_x = T.matrix('shared_test_x')
-        #shared_x = theano.shared(numpy.asarray(x, dtype=theano.config.floatX), borrow=True)
-        #shared_x = theano.function((), self.hiddenLayer.output, givens={x: shared_x})
-        #shared_x = theano.shared(numpy.asarray(x, dtype=theano.config.floatX), borrow=True)
-        #pred = theano.function((), classifier.logRegressionLayer.p_y_given_x, givens={x: shared_x})
         return z
 
 
@@ -122,33 +113,6 @@ def test_mlp(learning_rate,
                   patience_increase,
                   improvement_threshold,
                   submit_threshold):
-    """
-    Demonstrate stochastic gradient descent optimization for a multilayer
-    perceptron
-
-    This is demonstrated on MNIST.
-
-    :type learning_rate: float
-    :param learning_rate: learning rate used (factor for the stochastic
-    gradient
-
-    :type L1_reg: float
-    :param L1_reg: L1-norm's weight when added to the cost (see
-    regularization)
-
-    :type L2_reg: float
-    :param L2_reg: L2-norm's weight when added to the cost (see
-    regularization)
-
-    :type n_epochs: int
-    :param n_epochs: maximal number of epochs to run the optimizer
-
-    :type dataset: string
-    :param dataset: the path of the MNIST dataset file from
-                 http://www.iro.umontreal.ca/~lisa/deep/data/mnist/mnist.pkl.gz
-
-    n_hidden original 500 (slightly less than inputs) maybe try 26 for 30 inputs?
-   """
 
   
     datasets = load_data()
@@ -182,7 +146,7 @@ def test_mlp(learning_rate,
         n_out=2
     )
 
-    # start-snippet-4
+
     # the cost we minimize during training is the negative log likelihood of
     # the model plus the regularization terms (L1 and L2); cost is expressed
     # here symbolically
@@ -191,7 +155,7 @@ def test_mlp(learning_rate,
         + L1_reg * classifier.L1
         + L2_reg * classifier.L2_sqr
     )
-    # end-snippet-4
+
 
     # compiling a Theano function that computes the mistakes that are made
     # by the model on a minibatch
@@ -213,7 +177,6 @@ def test_mlp(learning_rate,
         }
     )
 
-    # start-snippet-5
     # compute the gradient of cost with respect to theta (sotred in params)
     # the resulting gradients will be stored in a list gparams
     gparams = [T.grad(cost, param) for param in classifier.params]
@@ -242,7 +205,7 @@ def test_mlp(learning_rate,
             y: train_set_y[index * batch_size: (index + 1) * batch_size]
         }
     )
-    # end-snippet-5
+
 
     ###############
     # TRAIN MODEL #
@@ -345,7 +308,7 @@ def test_mlp(learning_rate,
     print ("Values: ~["),
     for key,value in parameters.items():
         print (key+","),
-    print ("]~")
+    print ("test_score, test_std_dev, walltime]~")
 
     print ("Matrix: {["),
     for key,value in parameters.items():
@@ -353,13 +316,7 @@ def test_mlp(learning_rate,
     print (str(test_score*100)+","+str(test_std_dev*100)+","
            +str((end_time-start_time)/60.0)+"]}")
 
-    '''
-    print ("Matrix: {["+str(learning_rate)+","+str(n_epochs)+","
-           +str(batch_size)+","+str(patience)+","+str(patience_increase)+","
-           +str(improvement_threshold)+","+str(submit_threshold)+","
-           +str(test_score*100)+","+str(test_std_dev*100)+","
-           +str((end_time-start_time)/60.0)+"]}")
-    '''
+
     ######################
     # COMPUTE SUBMISSION #
     ######################
@@ -402,24 +359,26 @@ def test_mlp(learning_rate,
 if __name__ == '__main__':
     # Created dictionary to make things "slightly" less complicated with this number of parameters
     if len(sys.argv)>1:
-        print "Using given values"
-        name,learning_rate,n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold,n_hidden = sys.argv
-        parameters = dict(learning_rate = learning_rate,
-                  L1_reg = L1_reg,
-                  L2_reg = L2_reg,
-                  n_hidden = n_hidden,
-                  n_epochs = n_epochs,
-                  batch_size = batch_size,
-                  patience = patience,
-                  patience_increase = patience_increase,
-                  improvement_threshold = improvement_threshold,
-                  submit_threshold = submit_threshold
+        print "Using passed parameters"
+        name,learning_rate,L1_reg, L2_reg, n_hidden, n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold = sys.argv
+        parameters = dict(
+                  learning_rate = float(learning_rate),
+                  L1_reg = float(L1_reg),
+                  L2_reg = float(L2_reg),
+                  n_hidden = int(n_hidden),
+                  n_epochs = int(n_epochs),
+                  batch_size = int(batch_size),
+                  patience = int(patience),
+                  patience_increase = int(patience_increase),
+                  improvement_threshold = float(improvement_threshold),
+                  submit_threshold = float(submit_threshold)
                   ) 
         test_mlp(**parameters)
 
     else:
-        print "Using hard-coded values"
-        parameters = dict(learning_rate = 0.998,
+        print "Using hard-coded parameters"
+        parameters = dict(
+                  learning_rate = 0.998,
                   L1_reg = 0.00005,
                   L2_reg = 0.000005,
                   n_hidden = 50,
@@ -432,4 +391,4 @@ if __name__ == '__main__':
                   ) 
         test_mlp(**parameters)
 
-        #Hello 
+
