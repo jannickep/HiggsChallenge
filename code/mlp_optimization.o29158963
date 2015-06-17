@@ -1,0 +1,94 @@
+----------------------------------------
+Begin PBS Prologue Wed Jun 17 15:02:57 PDT 2015 1434578577
+Job ID:		29158963.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Nodes:		hermes0081
+End PBS Prologue Wed Jun 17 15:02:57 PDT 2015 1434578577
+----------------------------------------
+Current working directory is /home/jpearkes/HiggsChallenge/code
+Starting run at: Wed Jun 17 15:02:59 PDT 2015
+The code for file mlp.py ran for 0.43m
+Couldn't import dot_parser, loading of dot files will not be possible.
+Using passed parameters
+loading data
+x_size
+7500000
+data is being converted into theano shared_dataset
+... building the model
+... training
+epoch 1, minibatch 333/333, validation error 17.882114 %
+     epoch 1, minibatch 333/333, test error of best model 18.065041 %
+epoch 2, minibatch 333/333, validation error 17.195122 %
+     epoch 2, minibatch 333/333, test error of best model 17.337398 %
+epoch 3, minibatch 333/333, validation error 16.808943 %
+     epoch 3, minibatch 333/333, test error of best model 17.142276 %
+epoch 4, minibatch 333/333, validation error 16.626016 %
+     epoch 4, minibatch 333/333, test error of best model 16.882114 %
+epoch 5, minibatch 333/333, validation error 16.479675 %
+     epoch 5, minibatch 333/333, test error of best model 16.861789 %
+epoch 6, minibatch 333/333, validation error 16.556911 %
+epoch 7, minibatch 333/333, validation error 16.479675 %
+epoch 8, minibatch 333/333, validation error 16.410569 %
+     epoch 8, minibatch 333/333, test error of best model 16.833333 %
+epoch 9, minibatch 333/333, validation error 16.390244 %
+     epoch 9, minibatch 333/333, test error of best model 16.829268 %
+epoch 10, minibatch 333/333, validation error 16.369919 %
+     epoch 10, minibatch 333/333, test error of best model 16.808943 %
+epoch 11, minibatch 333/333, validation error 16.373984 %
+epoch 12, minibatch 333/333, validation error 16.386179 %
+epoch 13, minibatch 333/333, validation error 16.390244 %
+epoch 14, minibatch 333/333, validation error 16.398374 %
+epoch 15, minibatch 333/333, validation error 16.439024 %
+epoch 16, minibatch 333/333, validation error 16.447154 %
+epoch 17, minibatch 333/333, validation error 16.459350 %
+epoch 18, minibatch 333/333, validation error 16.406504 %
+epoch 19, minibatch 333/333, validation error 16.402439 %
+epoch 20, minibatch 333/333, validation error 16.361789 %
+     epoch 20, minibatch 333/333, test error of best model 16.792683 %
+epoch 21, minibatch 333/333, validation error 16.353659 %
+     epoch 21, minibatch 333/333, test error of best model 16.772358 %
+epoch 22, minibatch 333/333, validation error 16.345528 %
+     epoch 22, minibatch 333/333, test error of best model 16.764228 %
+epoch 23, minibatch 333/333, validation error 16.325203 %
+     epoch 23, minibatch 333/333, test error of best model 16.764228 %
+epoch 24, minibatch 333/333, validation error 16.317073 %
+     epoch 24, minibatch 333/333, test error of best model 16.764228 %
+epoch 25, minibatch 333/333, validation error 16.300813 %
+     epoch 25, minibatch 333/333, test error of best model 16.752033 %
+epoch 26, minibatch 333/333, validation error 16.317073 %
+epoch 27, minibatch 333/333, validation error 16.296748 %
+     epoch 27, minibatch 333/333, test error of best model 16.768293 %
+epoch 28, minibatch 333/333, validation error 16.304878 %
+epoch 29, minibatch 333/333, validation error 16.329268 %
+epoch 30, minibatch 333/333, validation error 16.321138 %
+Optimization complete. Best validation score of 16.296748 % obtained at iteration 8991, with test performance 16.768293 %
+improvement_threshold 0.2
+learning_rate 0.998
+batch_size 600
+n_epochs 10000
+patience 10000
+submit_threshold 0.5
+patience_increase 2
+L1_reg 5e-05
+n_hidden 50
+L2_reg 5e-06
+Values: ~[ improvement_threshold, learning_rate, batch_size, n_epochs, patience, submit_threshold, patience_increase, L1_reg, n_hidden, L2_reg, test_score, test_std_dev, walltime]~
+Matrix: {[ 0.2, 0.998, 600, 10000, 10000, 0.5, 2, 5e-05, 50, 5e-06, 16.7682926829,1.78630671079,0.425666666667]}
+Program mlp finished with exit code 0 at: Wed Jun 17 15:04:06 PDT 2015
+----------------------------------------
+Begin PBS Epilogue Wed Jun 17 15:04:11 PDT 2015 1434578651
+Job ID:		29158963.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Job Name:	mlp_optimization
+Session:	22840
+Limits:		mem=4gb,neednodes=1:ppn=1,nodes=1:ppn=1,pmem=512mb,walltime=01:00:00
+Resources:	cput=00:00:35,mem=152348kb,vmem=607944kb,walltime=00:01:09
+Queue:		hermes
+Account:		
+Nodes:	hermes0081
+Killing leftovers...
+
+End PBS Epilogue Wed Jun 17 15:04:11 PDT 2015 1434578651
+----------------------------------------

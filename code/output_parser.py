@@ -6,7 +6,7 @@ import re,sys,glob
 import numpy as np
 import cPickle
 # What files to look for
-files = glob.glob('../linear_search_1/linear_search.o*')
+files = glob.glob('mlp_optimization*')
 rgx = re.compile(r"\{\[(.*?)\]\}") #TODO: Add in expression
 rgx2 = re.compile(r"kb,walltime\=(.*)")
 rgx3 = re.compile(r"\~\[(.*?)\]\~") #TODO: Add in expression
@@ -17,7 +17,7 @@ save_time = None
 
 def getSec(s):
     l = s.split(':')
-    return (int(l[0]) * 60 + int(l[1]) + int(l[2])/60)
+    return (float(l[0]) * 60 + float(l[1]) + float(l[2])/60)
 
 for file in files:
     with open(file,'r') as f:
@@ -30,7 +30,6 @@ for file in files:
                 save_word = word[0]
             if time:
                 save_time = time[0]
-
         if (count == 0) and save_word and save_time:
                 header = np.fromstring
                 array = np.fromstring(save_word,dtype = float, sep=',')

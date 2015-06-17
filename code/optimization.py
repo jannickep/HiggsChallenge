@@ -7,11 +7,10 @@ from collections import OrderedDict
 #          Ideally will work with any of the NN algorithms
 LINEAR = 0
 EXPONENTIAL = 1
-CHANGES = 5
+CHANGES = 17
 PERCENT = 5
-
-input = sys.argv[1]
-if (input):
+if(len(sys.argv) > 1):
+      input = sys.argv[1]
       if(input == "mlp"):
             parameters = dict(
                   learning_rate = 0.998,
@@ -22,11 +21,25 @@ if (input):
                   batch_size = 600,
                   patience = 10000,
                   patience_increase = 2,
-                  improvement_threshold = 0.995,
+                  improvement_threshold = 0.05,
+                  #improvement_threshold = 0.995,
                   submit_threshold = 0.5
                   )
             pbs_name = " mlp_batch.pbs"
-      #elif(input == "sda"):
+      elif(input == "sda"):
+            parameters = dict(
+                 improvement_threshold = 0.995,
+                 finetune_lr = 0.1,
+                 pretraining_epochs = 15,
+                 pretrain_lr = 0.001, 
+                 training_epochs = 1000,
+                 batch_size = 1,
+                 neurons_per_layer = 32,
+                 number_of_layers = 3,
+                 patience = 10000,
+                 patience_increase = 2,
+                 submit_threshold = 0.5
+                  )
       elif(input == "log"):
             parameters = dict(
                   learning_rate = 0.13, 
@@ -53,7 +66,7 @@ else:
             )
       pbs_name = " mlp_batch.pbs"
 parameters = OrderedDict(sorted(parameters.items()))
-print "START______________________________________________________________________"
+print "START OPTIMIZATION WITH ______________________________________________________________________"
 
 # for key in Parameters
 # if value needs to be changed, change
@@ -84,9 +97,9 @@ for key,value in parameters.items():
 # Just do 20% change for all parameters default?
 
 # A generic talk function for qsub
-#iter_key = "improvement_threshold"
-iter_key = "batch_size"
-difference = parameters[iter_key]*PERCENT/100.0
+iter_key = "improvement_threshold"
+#iter_key = "batch_size"
+difference = float(parameters[iter_key]*PERCENT/100.0)
 newvalue = parameters[iter_key] - int(CHANGES/2)*difference 
 
 for j in range(CHANGES):

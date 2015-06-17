@@ -306,7 +306,9 @@ class SdA(object):
         return train_fn, valid_score, test_score
 
 
-def test_SdA(finetune_lr, pretraining_epochs,
+def test_SdA(finetune_lr, patience, 
+             patience_increase,submit_threshold, 
+             improvement_threshold, pretraining_epochs,
              pretrain_lr, training_epochs,
              batch_size,neurons_per_layer,number_of_layers):
     #def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
@@ -402,10 +404,10 @@ def test_SdA(finetune_lr, pretraining_epochs,
 
     print '... finetunning the model'
     # early-stopping parameters
-    patience = 10 # * n_train_batches  # look as this many examples regardless
-    patience_increase = 2.  # wait this much longer when a new best is
+    #patience = 10 # * n_train_batches  # look as this many examples regardless
+    #patience_increase = 2.  # wait this much longer when a new best is
                             # found
-    improvement_threshold = 0.995  # a relative improvement of this much is
+    #improvement_threshold = 0.995  # a relative improvement of this much is
                                    # considered significant
     validation_frequency = min(n_train_batches, patience / 2)
                                   # go through this many
@@ -483,7 +485,7 @@ def test_SdA(finetune_lr, pretraining_epochs,
     ######################
     # COMPUTE SUBMISSION #
     ######################
-    arg1 = 1
+    arg1 = 0
     if (arg1== 1):
 
         print '"submission" set is being loaded'
@@ -513,7 +515,7 @@ def test_SdA(finetune_lr, pretraining_epochs,
         ranks = ranks +1
         submission = np.array([[str(test_id[tI]),
                                 str(ranks[tI]),
-                                's' if test_pred[tI][1] > 0.5
+                                's' if test_pred[tI][1] > submit_threshold
                                  else 'b'] for tI in range(len(test_id))])
         submission = np.append([['EventId','RankOrder','Class']],
                                 submission, axis=0)
@@ -552,10 +554,40 @@ def test_SdA(finetune_lr, pretraining_epochs,
 
     '''
 if __name__ == '__main__':
-    name,finetune_lr,pretraining_epochs,pretrain_lr,training_epochs,batch_size,neurons_per_layer,number_of_layers = sys.argv
-    test_SdA(float(finetune_lr), int(pretraining_epochs),
-             float(pretrain_lr), int(training_epochs),
-             int(batch_size),int(neurons_per_layer),int(number_of_layers))
-    # test_SdA(finetune_lr, pretraining_epochs,
-    #          pretrain_lr, training_epochs,
-    #          batch_size,neurons_per_layer,number_of_layers)
+    
+    if len(sys.argv)>1:
+        print "Using passed parameters"
+        name,batch_size,finetune_lr,improvement_threshold, neurons_per_layer,number_of_layers, patience, patience_increase, pretraining_epochs,pretrain_lr,improvement_threshold,training_epochs = sys.argv
+        parameters = dict(
+                 improvement_threshold = float(improvement_threshold),
+                 finetune_lr = float(finetune_lr),
+                 patience = int(patience),
+                 patience_increase = int (patience_increase),
+                 pretraining_epochs = int(pretraining_epochs),
+                 pretrain_lr = float(pretrain_lr), 
+                 training_epochs = int(training_epochs),
+                 batch_size = int(batch_size),
+                 neurons_per_layer = int(neurons_per_layer),
+                 number_of_layers = int(number_of_layers), 
+                 submit_threshold = float(submit_threshold)
+                 )
+        test_SdA(**parameters)
+        
+
+    else:
+        print "Using hard-coded parameters"
+        parameters = dict(
+                 improvement_threshold = 0.995,
+                 finetune_lr = 0.1,
+                 pretraining_epochs = 15,
+                 pretrain_lr = 0.001, 
+                 training_epochs = 1000,
+                 batch_size = 1,
+                 neurons_per_layer = 32,
+                 number_of_layers = 3,
+                 patience = 10000,
+                 patience_increase = 2,
+                 submit_threshold = 0.5
+                  ) 
+        test_SdA(**parameters)
+

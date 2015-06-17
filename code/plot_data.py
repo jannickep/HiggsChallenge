@@ -72,7 +72,7 @@ def plot_data():
         p1 = plt.hist([real_background[:,col], real_signal[:,col]],
                   #range=[min_x_calc,max_x_calc],
                   bins = np.arange(min_x_calc, max_x_calc + binwidth, binwidth),
-                  #weights = [real_background[:,-2],real_signal[:,-2]],
+                  weights = [real_background[:,-2],real_signal[:,-2]],
                   label = ['background','signal'],
                   linewidth = 0.0, 
                   edgecolor = None,
@@ -86,7 +86,7 @@ def plot_data():
         plt.ylabel("Counts/Bin")
         #plt.text(0.0, 500, 'Number of invalid points:'+str(m-count[col]), fontsize=6)
         if (int(col%6) == 5):
-            plt.savefig("../plots/unweighted_raw_data_"+str(figure_num)+".eps")
+            plt.savefig("../plots/weighted_raw_data_"+str(figure_num)+".png")
 
     plt.show()
 
