@@ -348,8 +348,8 @@ if __name__ == '__main__':
             batch_size =  int(batch_size), 
             patience = int(patience),
             patience_increase = int(patience_increase),
-            improvement_threshold = int (improvement_threshold),
-            submit_threshold =  int (submit_threshold))
+            improvement_threshold = float(improvement_threshold),
+            submit_threshold =  float(submit_threshold))
         sgd_optimization(**parameters)
         
     else:

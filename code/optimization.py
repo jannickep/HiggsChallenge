@@ -7,7 +7,7 @@ from collections import OrderedDict
 #          Ideally will work with any of the NN algorithms
 LINEAR = 0
 EXPONENTIAL = 1
-CHANGES = 1
+CHANGES = 5
 PERCENT = 5
 
 input = sys.argv[1]
@@ -84,7 +84,8 @@ for key,value in parameters.items():
 # Just do 20% change for all parameters default?
 
 # A generic talk function for qsub
-iter_key = "improvement_threshold"
+#iter_key = "improvement_threshold"
+iter_key = "batch_size"
 difference = parameters[iter_key]*PERCENT/100.0
 newvalue = parameters[iter_key] - int(CHANGES/2)*difference 
 
