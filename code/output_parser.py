@@ -5,9 +5,11 @@
 import re,sys,glob
 import numpy as np
 import cPickle
+# What files to look for
 files = glob.glob('../linear_search_1/linear_search.o*')
 rgx = re.compile(r"\{\[(.*?)\]\}") #TODO: Add in expression
 rgx2 = re.compile(r"kb,walltime\=(.*)")
+rgx3 = re.compile(r"\~\[(.*?)\]\~") #TODO: Add in expression
 array = np.zeros((1,9))
 count = 0
 save_word = None
@@ -22,12 +24,15 @@ for file in files:
         for line in f:
             word = rgx.findall(line)
             time = rgx2.findall(line)
+            header = rgx3.findall(line)
             #Added this because time and word are on different lines
             if word:
                 save_word = word[0]
             if time:
                 save_time = time[0]
+
         if (count == 0) and save_word and save_time:
+                header = np.fromstring
                 array = np.fromstring(save_word,dtype = float, sep=',')
                 array[-1] = getSec(save_time)
                 count = 1

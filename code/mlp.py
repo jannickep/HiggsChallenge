@@ -360,7 +360,7 @@ if __name__ == '__main__':
     # Created dictionary to make things "slightly" less complicated with this number of parameters
     if len(sys.argv)>1:
         print "Using passed parameters"
-        name,learning_rate,L1_reg, L2_reg, n_hidden, n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold = sys.argv
+        name,L1_reg, L2_reg,batch_size,improvement_threshold,learning_rate,n_epochs,n_hidden,patience,patience_increase,submit_threshold = sys.argv
         parameters = dict(
                   learning_rate = float(learning_rate),
                   L1_reg = float(L1_reg),

@@ -341,7 +341,7 @@ def sgd_optimization(learning_rate, n_epochs,
 if __name__ == '__main__':
     if len(sys.argv)>1:
         print "Using passed values"
-        name,learning_rate,n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold = sys.argv
+        name,batch_size,improvement_threshold,learning_rate,n_epochs,patience,patience_increase,submit_threshold = sys.argv
         parameters = dict(
             learning_rate = float(learning_rate), 
             n_epochs = int(n_epochs),

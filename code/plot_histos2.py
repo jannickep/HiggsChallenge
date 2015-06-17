@@ -1,7 +1,7 @@
 # Author: Jannicke Pearkes
-# Purpose: Plotting histograms of machine learning performance
+# Purpose: Plotting histograms of machine learning performance over hyperparameter space
 
-t__ = 'restructedtext en'
+__doc_format__ = 'restructedtext en'
 
 import cPickle
 import gzip
@@ -110,10 +110,6 @@ ax1.bar(bin_centers-bin_widths/2.,Histo_layer3[0],facecolor='black',linewidth=0,
 #ax1.errorbar(bin_centers, ff*Histo_testing_A[0], yerr=ff*ErrorBar_testing_A, xerr=None, ecolor='black',c='black',fmt='.',label='Test (reweighted)')
 # ax1.errorbar(bin_centers, Histo_testing_B[0], yerr=ErrorBar_testing_B, xerr=None, ecolor='red',c='red',fmt='o',label='B (Test)')
   
-# Make a colorful backdrop to show the clasification regions in red and blue
-#ax1.axvspan(pcut, c_max, color='blue',alpha=0.08)
-#ax1.axvspan(c_min,pcut, color='red',alpha=0.08)
-  
 # Adjust the axis boundaries (just cosmetic)
 #ax1.axis([c_min, c_max, h_min, h_max])
   
@@ -139,46 +135,4 @@ if t == 1:
     plt.savefig("../plots/histos_error_top5_"+x[q].name+".png")
 
 
-'''
-histogram = np.histogram(x_raw[:,], 20)
-mpl.rcParams.update({'font.size': 4})
 
-num_bins = 100
-x = dict()
-x[0] = Parameter("finetune_lr", 0.0005, .02, 3)
-x[1] = Parameter("pretraining_epochs", 5, 20, 3)
-x[2] = Parameter("pretrain_lr", 0.0005, .002, 3)
-x[3] = Parameter("training_epochs", 500, 2000, 3)
-x[4] = Parameter("batch_size", 1, 2, 0)
-x[5] = Parameter("neurons_per_layer",50,1550,3)
-x[6] = Parameter("number_of_layers",1,4,3)
-
-array = cPickle.load(open("array.p",'rb'))
-
-# set missing values to 0 to make scale nicer < most plots seem to be close to 0 already
-# note: there will be a very large peak at 0 for some of these plots 
-# TODO: make it so that missing values aren't plotted at all
-m,n = x_raw.shape
-for row in range(0,m):
-    for col in range(0,n):
-        if x_raw[row][col] == -999.0:
-             x_raw[row][col] = 0.0
-
-for n in range(0,30):
-    min_x_raw = min(x_raw[:,n])
-    max_x_raw = max(x_raw[:,n])
-    if min_x_raw < 0:
-        binwidth = max_x_raw/num_bins 
-    elif min_x_raw >= 0:
-        binwidth = (max_x_raw-min_x_raw)/num_bins
-    #plt.figure(n)
-    plt.subplot(6,5,n+1)
-    plt.hist(x_raw[:,n],
-             bins=np.arange(min_x_raw, max_x_raw + binwidth, binwidth),range=[min_x_raw,max_x_raw])
-    plt.title(header[n])
-    plt.xlabel("Value")
-    plt.ylabel("Frequency")
-    
-
-plt.show()
-'''
