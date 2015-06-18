@@ -368,7 +368,7 @@ if __name__ == '__main__':
                   n_hidden = int(n_hidden),
                   n_epochs = int(n_epochs),
                   batch_size = int(batch_size),
-                  patience = int(patience),
+                  patience = int(float(patience)),
                   patience_increase = int(patience_increase),
                   improvement_threshold = float(improvement_threshold),
                   submit_threshold = float(submit_threshold)

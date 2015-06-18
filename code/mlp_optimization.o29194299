@@ -1,0 +1,67 @@
+----------------------------------------
+Begin PBS Prologue Thu Jun 18 12:03:49 PDT 2015 1434654229
+Job ID:		29194299.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Nodes:		hermes0083
+End PBS Prologue Thu Jun 18 12:03:49 PDT 2015 1434654229
+----------------------------------------
+Current working directory is /home/jpearkes/HiggsChallenge/code
+Starting run at: Thu Jun 18 12:03:56 PDT 2015
+The code for file mlp.py ran for 0.05m
+Couldn't import dot_parser, loading of dot files will not be possible.
+Using passed parameters
+loading data
+x_size
+7500000
+data is being converted into theano shared_dataset
+... building the model
+... training
+epoch 1, minibatch 50/333, validation error 23.512195 %
+     epoch 1, minibatch 50/333, test error of best model 23.792683 %
+epoch 1, minibatch 100/333, validation error 21.646341 %
+     epoch 1, minibatch 100/333, test error of best model 21.821138 %
+epoch 1, minibatch 150/333, validation error 19.382114 %
+     epoch 1, minibatch 150/333, test error of best model 19.483740 %
+epoch 1, minibatch 200/333, validation error 18.565041 %
+     epoch 1, minibatch 200/333, test error of best model 18.906504 %
+epoch 1, minibatch 250/333, validation error 18.121951 %
+     epoch 1, minibatch 250/333, test error of best model 17.963415 %
+epoch 1, minibatch 300/333, validation error 17.808943 %
+     epoch 1, minibatch 300/333, test error of best model 17.865854 %
+epoch 2, minibatch 17/333, validation error 18.101626 %
+epoch 2, minibatch 67/333, validation error 18.784553 %
+epoch 2, minibatch 117/333, validation error 17.776423 %
+     epoch 2, minibatch 117/333, test error of best model 18.077236 %
+epoch 2, minibatch 167/333, validation error 18.772358 %
+epoch 2, minibatch 217/333, validation error 18.227642 %
+Optimization complete. Best validation score of 17.776423 % obtained at iteration 450, with test performance 18.077236 %
+improvement_threshold 0.995
+learning_rate 0.998
+batch_size 600
+n_epochs 10000
+patience 598
+submit_threshold 0.5
+patience_increase 2
+L1_reg 5e-05
+n_hidden 50
+L2_reg 5e-06
+Values: ~[ improvement_threshold, learning_rate, batch_size, n_epochs, patience, submit_threshold, patience_increase, L1_reg, n_hidden, L2_reg, test_score, test_std_dev, walltime]~
+Matrix: {[ 0.995, 0.998, 600, 10000, 598, 0.5, 2, 5e-05, 50, 5e-06, 18.0772357724,1.5473981839,0.046]}
+Program mlp finished with exit code 0 at: Thu Jun 18 12:04:29 PDT 2015
+----------------------------------------
+Begin PBS Epilogue Thu Jun 18 12:04:34 PDT 2015 1434654274
+Job ID:		29194299.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Job Name:	mlp_optimization
+Session:	3791
+Limits:		mem=4gb,neednodes=1:ppn=1,nodes=1:ppn=1,pmem=512mb,walltime=01:00:00
+Resources:	cput=00:00:11,mem=0kb,vmem=0kb,walltime=00:00:40
+Queue:		hermes
+Account:		
+Nodes:	hermes0083
+Killing leftovers...
+
+End PBS Epilogue Thu Jun 18 12:04:34 PDT 2015 1434654274
+----------------------------------------

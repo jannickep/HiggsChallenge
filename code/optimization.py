@@ -7,7 +7,7 @@ import numpy as np
 # Purpose: To submit jobs for the mlp to the batch scheduler
 #          Ideally will work with any of the NN algorithms
 LINEAR = 0
-EXPONENTIAL = 1
+EXPONENTIAL = 0
 CHANGES = 1
 PERCENT = 5
 if(len(sys.argv) > 1):
@@ -20,8 +20,8 @@ if(len(sys.argv) > 1):
                   n_hidden = 50,
                   n_epochs = 10000,
                   batch_size = 600,
-                  #patience = 10000,
-                  patience = 10,
+                  patience = 10000,
+                  #patience = 10,
                   patience_increase = 2,
                   #improvement_threshold = 0.05,
                   improvement_threshold = 0.995,
@@ -116,7 +116,7 @@ else:
     start = centre-CHANGES*PERCENT
     stop = centre+CHANGES*PERCENT
     parameter_updates = np.linspace(start,stop, num = num)
-
+    parameter_updates = np.linspace(1,100000, num = 10)
 for j in parameter_updates:
       parameters[iter_key] = j
       i = 1

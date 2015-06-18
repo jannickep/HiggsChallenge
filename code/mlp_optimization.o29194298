@@ -1,0 +1,57 @@
+----------------------------------------
+Begin PBS Prologue Thu Jun 18 12:02:33 PDT 2015 1434654153
+Job ID:		29194298.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Nodes:		hermes0081
+End PBS Prologue Thu Jun 18 12:02:33 PDT 2015 1434654153
+----------------------------------------
+Current working directory is /home/jpearkes/HiggsChallenge/code
+Starting run at: Thu Jun 18 12:02:34 PDT 2015
+INFO (theano.gof.compilelock): Waiting for existing lock by process '3517' (I am process '3627')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-504.8.1.el6.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+The code for file mlp.py ran for 0.01m
+Couldn't import dot_parser, loading of dot files will not be possible.
+Using passed parameters
+loading data
+x_size
+7500000
+data is being converted into theano shared_dataset
+... building the model
+... training
+epoch 1, minibatch 5/333, validation error 27.552846 %
+     epoch 1, minibatch 5/333, test error of best model 27.252033 %
+epoch 1, minibatch 10/333, validation error 25.686992 %
+     epoch 1, minibatch 10/333, test error of best model 25.991870 %
+epoch 1, minibatch 15/333, validation error 25.569106 %
+     epoch 1, minibatch 15/333, test error of best model 25.853659 %
+Optimization complete. Best validation score of 25.569106 % obtained at iteration 15, with test performance 25.853659 %
+improvement_threshold 0.995
+learning_rate 0.998
+batch_size 600
+n_epochs 10000
+patience 18
+submit_threshold 0.5
+patience_increase 2
+L1_reg 5e-05
+n_hidden 50
+L2_reg 5e-06
+Values: ~[ improvement_threshold, learning_rate, batch_size, n_epochs, patience, submit_threshold, patience_increase, L1_reg, n_hidden, L2_reg, test_score, test_std_dev, walltime]~
+Matrix: {[ 0.995, 0.998, 600, 10000, 18, 0.5, 2, 5e-05, 50, 5e-06, 25.8536585366,1.48168361809,0.00833333333333]}
+Program mlp finished with exit code 0 at: Thu Jun 18 12:03:13 PDT 2015
+----------------------------------------
+Begin PBS Epilogue Thu Jun 18 12:03:18 PDT 2015 1434654198
+Job ID:		29194298.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Job Name:	mlp_optimization
+Session:	3504
+Limits:		mem=4gb,neednodes=1:ppn=1,nodes=1:ppn=1,pmem=512mb,walltime=01:00:00
+Resources:	cput=00:00:10,mem=7252kb,vmem=52488kb,walltime=00:00:40
+Queue:		hermes
+Account:		
+Nodes:	hermes0081
+Killing leftovers...
+
+End PBS Epilogue Thu Jun 18 12:03:19 PDT 2015 1434654199
+----------------------------------------
