@@ -2,12 +2,13 @@ import string
 import subprocess
 import sys
 from collections import OrderedDict
+import numpy as np
 # Mlp Optimization 
 # Purpose: To submit jobs for the mlp to the batch scheduler
 #          Ideally will work with any of the NN algorithms
 LINEAR = 0
 EXPONENTIAL = 1
-CHANGES = 17
+CHANGES = 1
 PERCENT = 5
 if(len(sys.argv) > 1):
       input = sys.argv[1]
@@ -19,10 +20,11 @@ if(len(sys.argv) > 1):
                   n_hidden = 50,
                   n_epochs = 10000,
                   batch_size = 600,
-                  patience = 10000,
+                  #patience = 10000,
+                  patience = 10,
                   patience_increase = 2,
-                  improvement_threshold = 0.05,
-                  #improvement_threshold = 0.995,
+                  #improvement_threshold = 0.05,
+                  improvement_threshold = 0.995,
                   submit_threshold = 0.5
                   )
             pbs_name = " mlp_batch.pbs"
@@ -95,19 +97,32 @@ for key,value in parameters.items():
 # automatically do linear 
 
 # Just do 20% change for all parameters default?
-
 # A generic talk function for qsub
-iter_key = "improvement_threshold"
+#iter_key = "improvement_threshold"
 #iter_key = "batch_size"
+iter_key = "patience"
 difference = float(parameters[iter_key]*PERCENT/100.0)
 newvalue = parameters[iter_key] - int(CHANGES/2)*difference 
+centre = parameters[iter_key]
+num = 2*CHANGES+1
+parameter_updates = np.zeros(num)
+if (EXPONENTIAL):
+    start = centre*(10**(-CHANGES))
+    stop = centre*(10**CHANGES)
+    print "Exponential: logspace(start = "+str(start)+", stop = "+str(stop)+", num = "+str(num)+")"
+    for i in range(num):
+      parameter_updates[i] = start*(10**i)
+else:
+    start = centre-CHANGES*PERCENT
+    stop = centre+CHANGES*PERCENT
+    parameter_updates = np.linspace(start,stop, num = num)
 
-for j in range(CHANGES):
-      parameters[iter_key] = newvalue 
+for j in parameter_updates:
+      parameters[iter_key] = j
       i = 1
       talk = "qsub -v"
       for key,value in parameters.items():
-            print key+str(value)
+            print key+": "+str(value)
             talk += "input"+str(i)+"="+str(value)+","
             i += 1
       talk = talk[:-1]
