@@ -557,18 +557,18 @@ if __name__ == '__main__':
     
     if len(sys.argv)>1:
         print "Using passed parameters"
-        name,batch_size,finetune_lr,improvement_threshold, neurons_per_layer,number_of_layers, patience, patience_increase, pretraining_epochs,pretrain_lr,improvement_threshold,training_epochs = sys.argv
+        name,batch_size,finetune_lr,improvement_threshold, neurons_per_layer,number_of_layers, patience, patience_increase, pretraining_epochs,pretrain_lr, submit_threshold,training_epochs = sys.argv
         parameters = dict(
                  improvement_threshold = float(improvement_threshold),
                  finetune_lr = float(finetune_lr),
-                 patience = int(patience),
-                 patience_increase = int (patience_increase),
-                 pretraining_epochs = int(pretraining_epochs),
+                 patience = int(float(patience)),
+                 patience_increase = int (float(patience_increase)),
+                 pretraining_epochs = int(float(pretraining_epochs)),
                  pretrain_lr = float(pretrain_lr), 
-                 training_epochs = int(training_epochs),
-                 batch_size = int(batch_size),
-                 neurons_per_layer = int(neurons_per_layer),
-                 number_of_layers = int(number_of_layers), 
+                 training_epochs = int(float(training_epochs)),
+                 batch_size = int(float(batch_size)),
+                 neurons_per_layer = int(float(neurons_per_layer)),
+                 number_of_layers = int(float(number_of_layers)), 
                  submit_threshold = float(submit_threshold)
                  )
         test_SdA(**parameters)

@@ -1,3 +1,3 @@
-S' improvement_threshold, learning_rate, batch_size, n_epochs, patience, submit_threshold, patience_increase, L1_reg, n_hidden, L2_reg, test_score, test_std_dev, walltime'
+S'learning_rate,n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold,test_score,test_std_dev,time'
 p1
 .

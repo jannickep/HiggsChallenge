@@ -6,7 +6,8 @@ import re,sys,glob
 import numpy as np
 import cPickle
 # What files to look for
-files = glob.glob('mlp_optimization*')
+#files = glob.glob('mlp_optimization.o2919*')
+files = glob.glob('log_optimization.*')
 rgx = re.compile(r"\{\[(.*?)\]\}") #TODO: Add in expression
 rgx2 = re.compile(r"kb,walltime\=(.*)")
 rgx3 = re.compile("\~\[(.*?)\]\~") #TODO: Add in expression
@@ -14,6 +15,7 @@ array = np.zeros((1,9))
 count = 0
 save_word = None
 save_time = None
+save_header = True
 
 def getSec(s):
     l = s.split(':')
@@ -34,11 +36,11 @@ for file in files:
             if header:
                 save_header = header[0] 
         if (count == 0) and save_word and save_time and save_header:
-                save_header = save_header.split(",")
+                #save_header = save_header.split(",")
                 array = np.fromstring(save_word,dtype = float, sep=',')
                 array[-1] = getSec(save_time)
                 count = 1
-                print save_header
+                #print save_header
                 print array
         elif save_word and save_time: 
             word_array = np.fromstring(save_word,dtype = float, sep=',') 

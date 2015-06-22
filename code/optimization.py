@@ -34,18 +34,19 @@ if(len(sys.argv) > 1):
                  finetune_lr = 0.1,
                  pretraining_epochs = 15,
                  pretrain_lr = 0.001, 
-                 training_epochs = 1000,
-                 batch_size = 1,
+                 training_epochs = 10000,
+                 batch_size = 600,
                  neurons_per_layer = 32,
                  number_of_layers = 3,
                  patience = 10000,
                  patience_increase = 2,
                  submit_threshold = 0.5
                   )
+            pbs_name = " SdA_batch.pbs"
       elif(input == "log"):
             parameters = dict(
-                  learning_rate = 0.13, 
-                  n_epochs = 1000,
+                  learning_rate = 0.998, 
+                  n_epochs = 10000,
                   batch_size = 600,
                   patience = 5000, 
                   patience_increase = 2,

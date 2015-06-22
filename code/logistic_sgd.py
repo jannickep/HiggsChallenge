@@ -344,10 +344,10 @@ if __name__ == '__main__':
         name,batch_size,improvement_threshold,learning_rate,n_epochs,patience,patience_increase,submit_threshold = sys.argv
         parameters = dict(
             learning_rate = float(learning_rate), 
-            n_epochs = int(n_epochs),
-            batch_size =  int(batch_size), 
-            patience = int(patience),
-            patience_increase = int(patience_increase),
+            n_epochs = int(float(n_epochs)),
+            batch_size =  int(float(batch_size)), 
+            patience = int(float(patience)),
+            patience_increase = int(float(patience_increase)),
             improvement_threshold = float(improvement_threshold),
             submit_threshold =  float(submit_threshold))
         sgd_optimization(**parameters)

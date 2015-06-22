@@ -365,11 +365,11 @@ if __name__ == '__main__':
                   learning_rate = float(learning_rate),
                   L1_reg = float(L1_reg),
                   L2_reg = float(L2_reg),
-                  n_hidden = int(n_hidden),
-                  n_epochs = int(n_epochs),
-                  batch_size = int(batch_size),
+                  n_hidden = int(float(n_hidden)),
+                  n_epochs = int(float(n_epochs)),
+                  batch_size = int(float(batch_size)),
                   patience = int(float(patience)),
-                  patience_increase = int(patience_increase),
+                  patience_increase = int(float(patience_increase)),
                   improvement_threshold = float(improvement_threshold),
                   submit_threshold = float(submit_threshold)
                   ) 
