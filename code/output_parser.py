@@ -7,7 +7,13 @@ import numpy as np
 import cPickle
 # What files to look for
 #files = glob.glob('mlp_optimization.o2919*')
-files = glob.glob('log_optimization.*')
+if len(sys.argv)>1:
+    files = glob.glob(sys.argv[1]+"*")
+    print "using passed parameter"
+else:
+    files = glob.glob('linear_search.o293186*')
+    print "no parameter specified"
+
 rgx = re.compile(r"\{\[(.*?)\]\}") #TODO: Add in expression
 rgx2 = re.compile(r"kb,walltime\=(.*)")
 rgx3 = re.compile("\~\[(.*?)\]\~") #TODO: Add in expression

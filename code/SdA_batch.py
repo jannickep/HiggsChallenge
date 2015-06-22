@@ -452,6 +452,7 @@ def test_SdA(finetune_lr, patience,
                     # test it on the test set
                     test_losses = test_model()
                     test_score = numpy.mean(test_losses)
+                    test_std_dev = numpy.std(test_losses)
                     print(('     epoch %i, minibatch %i/%i, test error of '
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
@@ -473,14 +474,35 @@ def test_SdA(finetune_lr, patience,
     print >> sys.stderr, ('The training code for file ' +
                           os.path.split(__file__)[1] +
                           ' ran for %.2fm' % ((end_time - start_time) / 60.))
-    print "finetuning learning rate: " + str(finetune_lr)
-    print "pre training epochs: " + str(pretraining_epochs)
-    print "pre training learning rate: " + str(pretrain_lr)
-    print "training epochs: " + str(training_epochs)
-    print "batch size: " + str(batch_size)
-    print "neurons per layer: " + str(neurons_per_layer)
-    print "number of layers: " + str(number_of_layers)
-    print "Matrix: {["+str(finetune_lr)+","+str(pretraining_epochs)+","+str(pretrain_lr)+","+str(training_epochs)+","+str(batch_size)+","+str(neurons_per_layer)+","+str(number_of_layers)+","+str(test_score*100)+","+str((end_time-start_time)/60.0)+"]}"
+    
+    parameters = dict(
+             improvement_threshold = improvement_threshold,
+             finetune_lr = finetune_lr,
+             patience = patience,
+             patience_increase = patience_increase,
+             pretraining_epochs = pretraining_epochs,
+             pretrain_lr = pretrain_lr, 
+             training_epochs = training_epochs,
+             batch_size = batch_size,
+             neurons_per_layer = neurons_per_layer,
+             number_of_layers = number_of_layers, 
+             submit_threshold = submit_threshold
+             )
+
+    for key,value in parameters.items():
+        print key,value
+    
+    print ("Values: ~["),
+    for key,value in parameters.items():
+        print (key+","),
+    print ("test_score, test_std_dev, walltime]~")
+
+    print ("Matrix: {["),
+    for key,value in parameters.items():
+        print (str(value)+","),
+    print (str(test_score*100)+","+str(test_std_dev*100)+","
+           +str((end_time-start_time)/60.0)+"]}")
+
 
     ######################
     # COMPUTE SUBMISSION #

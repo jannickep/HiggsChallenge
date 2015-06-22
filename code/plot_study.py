@@ -29,7 +29,7 @@ print parameter_names
 # Import parsed output data
 array = cPickle.load(open("array.p",'rb'))
 
-num_col = 3 # The column we want to study
+num_col = 4 # The column we want to study
 name = parameter_names[num_col]
 values = array[:,num_col]
 validation_error = array[:,-3]
@@ -40,12 +40,12 @@ time_uncertainty = [1/120.0 for t in time]
 # Find min and max values and pad a little for plot axes
 pad_u = 1.1
 pad_d = 0.9
-v_min = min(values)*pad_d
-v_max = max(values)*pad_u
-e_min = min(validation_error)*pad_d
-e_max = max(validation_error)*pad_u
-t_min = min(time)*pad_d
-t_max = max(time)*pad_u
+v_min = 0 #min(values)*pad_d
+v_max = 110000#max(values)*pad_u
+e_min = 10#min(validation_error)*pad_d
+e_max = 30#max(validation_error)*pad_u
+t_min = 0#min(time)*pad_d
+t_max = 10#max(time)*pad_u
 print v_min,v_max
 print e_min,e_max
 print t_min,t_max
@@ -56,7 +56,7 @@ def func(x, p1,p2):
 
 plt.figure(0)
 plt.subplot(2,1,1)
-plt.title("Effect of Patience Hyper-Parameter on Logistic Regression")
+plt.title("Effect of Patience Hyper-Parameter on Single Layer Neural Network")
 plt.errorbar(values,validation_error, validation_uncertainty, linestyle = "None")
 plt.xlabel(label(name))
 plt.ylabel(label(parameter_names[-3]))
@@ -85,6 +85,7 @@ x_new = np.linspace(v_min,v_max,num =10)
 y_new = func(x_new, a,b)
 print popt
 plt.plot(x_new,y_new)
-plt.savefig("../plots/"+name+"_study_sda")
+plt.savefig("../plots/"+name+"_study_mlp")
+print "saved under ../plots/"+name+"_study_mlp"
 
 
