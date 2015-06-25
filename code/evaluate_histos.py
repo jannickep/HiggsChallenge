@@ -42,7 +42,7 @@ x[6] = Parameter("number_of_layers",1,4,3)
 
 
 array = cPickle.load(open("array.p",'rb'))
-
+#array = cPickle.load(open("linear_search.p",'rb'))
 total = len(array)
 print total
 s = numpy.zeros((7,3))

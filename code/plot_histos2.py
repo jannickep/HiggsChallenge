@@ -54,12 +54,12 @@ q = int(sys.argv[1])
 #q = [1,2,3,4,6]
 t = int(sys.argv[2])
 
-array = cPickle.load(open("array.p",'rb'))
+array = cPickle.load(open("linear_search.p",'rb'))
 m,n = array.shape
 layer = []
 line = []
 l = len(x[q].values)
-print m
+print "m:"+str(m)
 for i in range(len(x[q].values)): 
    for j in range(m):
         if (array[j,q] == x[q].values[i]):

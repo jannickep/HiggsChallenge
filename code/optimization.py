@@ -6,10 +6,13 @@ import numpy as np
 # Mlp Optimization 
 # Purpose: To submit jobs for the mlp to the batch scheduler
 #          Ideally will work with any of the NN algorithms
-LINEAR = 0
-EXPONENTIAL = 0
-CHANGES = 1
-PERCENT = 5
+'''
+class Parameter:
+  def __init(self, name, values):
+    self.name = name
+    self.values = values
+
+
 if(len(sys.argv) > 1):
       input = sys.argv[1]
       if(input == "mlp"):
@@ -30,17 +33,17 @@ if(len(sys.argv) > 1):
             pbs_name = " mlp_batch.pbs"
       elif(input == "sda"):
             parameters = dict(
-                 improvement_threshold = 0.995,
-                 finetune_lr = 0.1,
-                 pretraining_epochs = 15,
-                 pretrain_lr = 0.001, 
-                 training_epochs = 10000,
-                 batch_size = 600,
-                 neurons_per_layer = 32,
-                 number_of_layers = 3,
-                 patience = 10000,
-                 patience_increase = 2,
-                 submit_threshold = 0.5
+                 improvement_threshold = [0.995],
+                 finetune_lr = [1,0.1,0.01],
+                 pretraining_epochs = [10],
+                 pretrain_lr = [0.001], 
+                 training_epochs = [500],
+                 batch_size = [1],
+                 neurons_per_layer = [20,30,40],
+                 number_of_layers = [1,2,3,4],
+                 patience = [10000],
+                 patience_increase = [2],
+                 submit_threshold = [0.5]
                   )
             pbs_name = " SdA_batch.pbs"
       elif(input == "log"):
@@ -71,65 +74,95 @@ else:
 parameters = OrderedDict(sorted(parameters.items()))
 print "START OPTIMIZATION WITH ______________________________________________________________________"
 
-# for key in Parameters
-# if value needs to be changed, change
-# qsub only item that need to be changed 
-
-# how do i decide on whether an item needs to be changed or not?
-# give it an array
-# create array for each parameter, just use one values if does not change
-
-# Could have user input? Maybe if start with mlp_optimization.py i <- interactive 
-# Number of parameters will be different if using mlp over log_sgd
-
-# how do I input what I would like
-
-# Parameter to be changed
-# How to change it 
 '''
-print "which parameter would you like to adjust?"
-i = 0
-for key,value in parameters.items():
-    print (str(i)+") "+ key+":"+str(value))
-    i += 1
+
+import os
+import sys
+import time
+
+import numpy
+
+import theano
+import theano.tensor as T
+import random,string,math,csv
+import scipy.linalg.blas
+import numpy as np
+import theano.tensor as T
+import cPickle
+
+import subprocess
+
+#TODO: add in matrix rows
+#TODO: add in best value checker
+#TODO: would need output to go somewhere proper 
+
+bestscore = 100
+best_learning_rate = -999
+best_n_epochs = -999
+best_batch_size = -999
+iteration = 0
+count = 0
+print "START______________________________________________________________________"
+
+class Parameter:
+    def __init__(self, name, values):
+        self.name = name
+        self.values = values
+                   
+    def __str__(self):
+        string = self.name +','+ str(self.values)
+        return str(string)
+        
+x = dict()
+# Parameter( name, low_param, high_param, num_steps)
+# num steps = 0 for constant value
+#             1 for exponential increases
+#             >1 for number of steps
+#finetune_lr,pretraining_epochs,pretrain_lr,training_epochs,batch_size,neurons_per_layer,number_of_layers 
+
+x[0] = Parameter("batch_size" , [1, 10, 100, 1000])
+x[1] = Parameter("improvement_threshold" , [0.995])
+x[2] = Parameter("learning_rate" , [1,0.1,0.01])
+x[3] = Parameter("n_epochs" , [500, 1000])
+x[4] = Parameter("patience" , [1000,10000])
+x[5] = Parameter("patience_increase" , [2])
+x[6]= Parameter("submit_threshold" , [0.5])
 '''
-# Easiest just to put in percent change that would like to see 
-# instead of actual values
-# automatically do linear 
+x[0] = Parameter("batch_size" , [1])
+x[1] = Parameter("improvement_threshold" , [0.995])
+x[2] = Parameter("learning_rate" , [1])
+x[3] = Parameter("n_epochs" , [500])
+x[4] = Parameter("patience" , [1000])
+x[5] = Parameter("patience_increase" , [2])
+x[6]= Parameter("submit_threshold" , [0.5])
+'''
+x_best = [0,0,0]
 
-# Just do 20% change for all parameters default?
-# A generic talk function for qsub
-#iter_key = "improvement_threshold"
-#iter_key = "batch_size"
-iter_key = "patience"
-difference = float(parameters[iter_key]*PERCENT/100.0)
-newvalue = parameters[iter_key] - int(CHANGES/2)*difference 
-centre = parameters[iter_key]
-num = 2*CHANGES+1
-parameter_updates = np.zeros(num)
-if (EXPONENTIAL):
-    start = centre*(10**(-CHANGES))
-    stop = centre*(10**CHANGES)
-    print "Exponential: logspace(start = "+str(start)+", stop = "+str(stop)+", num = "+str(num)+")"
-    for i in range(num):
-      parameter_updates[i] = start*(10**i)
-else:
-    start = centre-CHANGES*PERCENT
-    stop = centre+CHANGES*PERCENT
-    parameter_updates = np.linspace(start,stop, num = num)
-    parameter_updates = np.linspace(1,100000, num = 10)
-for j in parameter_updates:
-      parameters[iter_key] = j
-      i = 1
-      talk = "qsub -v"
-      for key,value in parameters.items():
-            print key+": "+str(value)
-            talk += "input"+str(i)+"="+str(value)+","
-            i += 1
-      talk = talk[:-1]
-      talk += pbs_name
-      print talk 
-      subprocess.call(talk, shell = True)
-      newvalue = parameters[iter_key] + difference
+# TODO: this is a hack, worked ok with only 3 hyper-parameters. 
+#       Use recursion instead
 
-#print "Submitting "+number_of_jobs+" jobs ..."
+length = 1
+for i in range(0,7):
+    print x[i]
+    length = length*len(x[i].values)
+print "number of iterations: "+str(length)
+
+print "beginning to talk" 
+for i in range(len (x[0].values)):
+    for j in range(len (x[1].values)):
+        for k in range(len (x[2].values)):
+            for l in range(len (x[3].values)):
+                for m in range(len (x[4].values)):
+                    for n in range(len (x[5].values)):
+                        for o in range(len (x[6].values)):
+                                  talk = ('qsub -vinput1='+str(x[0].values[i])
+                                              +',input2='+str(x[1].values[j])
+                                              +',input3='+str(x[2].values[k])
+                                              +',input4='+str(x[3].values[l])
+                                              +',input5='+str(x[4].values[m])
+                                              +',input6='+str(x[5].values[n])
+                                              +',input7='+str(x[6].values[o])
+                                              +' log_batch.pbs')
+                                  print talk
+                                  subprocess.call(talk, shell = True)
+print "talking complete" 

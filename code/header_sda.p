@@ -1,3 +1,22 @@
-S' neurons_per_layer, improvement_threshold, number_of_layers, finetune_lr, batch_size, pretrain_lr, patience, submit_threshold, patience_increase, pretraining_epochs, training_epochs, test_score, test_std_dev, walltime'
-p1
-.
+(lp1
+S'learning_rate'
+p2
+aS'n_epochs'
+p3
+aS'batch_size'
+p4
+aS'patience'
+p5
+aS'patience_increase'
+p6
+aS'improvement_threshold'
+p7
+aS'submit_threshold'
+p8
+aS'test_score'
+p9
+aS'test_std_dev'
+p10
+aS'time'
+p11
+a.

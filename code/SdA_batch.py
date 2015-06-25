@@ -371,7 +371,8 @@ def test_SdA(finetune_lr, patience,
     print '... pre-training the model'
     start_time = time.clock()
     ## Pre-train layer-wise
-    corruption_levels = [.1, .2, .3]
+    corruption_levels = [.1, .2, .3, .3, .3] # not sure if these levels are ok
+                                             # could not find good online source
     for i in xrange(sda.n_layers):
         # go through pretraining epochs
         for epoch in xrange(pretraining_epochs):
@@ -593,6 +594,7 @@ if __name__ == '__main__':
                  number_of_layers = int(float(number_of_layers)), 
                  submit_threshold = float(submit_threshold)
                  )
+        print parameters
         test_SdA(**parameters)
         
 
