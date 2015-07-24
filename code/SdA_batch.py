@@ -10,6 +10,7 @@ import os
 import sys
 import time
 import cPickle
+import math
 import numpy
 import numpy as np
 import theano
@@ -37,7 +38,7 @@ class SdA(object):
         self,
         numpy_rng,
         theano_rng=None,
-        n_ins=30,
+        n_ins=4,
         hidden_layers_sizes=[28, 28],#original [500,500]
         n_outs=2,
         corruption_levels=[0.1, 0.1]
@@ -355,7 +356,7 @@ def test_SdA(finetune_lr, patience,
     # construct the stacked denoising autoencoder class
     sda = SdA(
         numpy_rng=numpy_rng,
-        n_ins=30,
+        n_ins=4,
         #hidden_layers_sizes=[32, 32, 32], # orginally [1000, 1000, 1000] 
         hidden_layers_sizes=np.ones((number_of_layers,), dtype=int)*neurons_per_layer,
         n_outs=2
@@ -453,7 +454,8 @@ def test_SdA(finetune_lr, patience,
                     # test it on the test set
                     test_losses = test_model()
                     test_score = numpy.mean(test_losses)
-                    test_std_dev = numpy.std(test_losses)
+                    #test_std_dev = numpy.std(test_losses)
+                    test_std_dev = numpy.std(test_losses)/math.sqrt(len(test_losses))
                     print(('     epoch %i, minibatch %i/%i, test error of '
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,

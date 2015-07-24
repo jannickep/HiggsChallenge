@@ -16,9 +16,11 @@ import numpy as np
 import theano
 import theano.tensor as T
 from random import shuffle
+import matplotlib 
+import matplotlib.pyplot as plt
 
 class LogisticRegression(object):
-    def __init__(self, input, n_in, n_out):
+    def __init__(self, input, n_in, n_out, discriminant_threshold):
 
         # initialize with 0 the weights W as a matrix of shape (n_in, n_out)
         self.W = theano.shared(
@@ -41,8 +43,10 @@ class LogisticRegression(object):
         )
         
         self.p_y_given_x = T.nnet.softmax(T.dot(input, self.W) + self.b)
-
-        self.y_pred = T.argmax(self.p_y_given_x, axis=1)
+        # edited to reject events below a threshold
+        #self.y_pred = T.argmax(self.p_y_given_x, axis=1) 
+        #self.y_pred = T.and_(T.argmax(self.p_y_given_x, axis=1), T.ge(self.p_y_given_x[:,1], -1))#discriminant_threshold))
+        self.y_pred = T.ge(self.p_y_given_x[:,1], discriminant_threshold)#discriminant_threshold))
 
         # parameters of the model
         self.params = [self.W, self.b]
@@ -50,6 +54,10 @@ class LogisticRegression(object):
     #JP - Added output function
     def output(self,x):
         return  T.nnet.softmax(T.dot(x, self.W) + self.b)
+
+    def pred(self,x):
+        return  self.y_pred
+
 
     def negative_log_likelihood(self, y):
         #  the mean log-likelihood across the minibatch.
@@ -70,7 +78,26 @@ class LogisticRegression(object):
             # represents a mistake in prediction
         else:
             raise NotImplementedError()
-            
+
+    def asimov_errors(self, y):
+        # check if y has same dimension of y_pred
+        if y.ndim != self.y_pred.ndim:
+            raise TypeError(
+                'y should have the same shape as self.y_pred',
+                ('y', y.type, 'y_pred', self.y_pred.type)
+            )
+        # check if y is of the correct datatype
+        if y.dtype.startswith('int'):
+            S = T.sum(T.eq(y,1))
+            B = T.sum(T.eq(y,0))#*10000 # TODO: cross-section scaling
+            s = T.sum(T.and_(T.eq(y,1),T.eq(self.y_pred,1)))
+            b = T.sum(T.and_(T.eq(y,0),T.eq(self.y_pred,1)))#*10000 TODO: cross-section scaling
+            return(S,B,s,b)
+            # represents a mistake in prediction
+        else:
+            raise NotImplementedError()
+
+
 def load_data():
 
     #############
@@ -85,10 +112,12 @@ def load_data():
         return shared_x, T.cast(shared_y, 'int32'), shared_w        
     
     print "loading data"
-    f = open("../data/normalizedTraining.p", 'rb')
+    f = open("../data/normalizedTraining_high.p", 'rb')
     train_set, valid_set, test_set = cPickle.load(f)
     f.close()
-    # Shuffle Data (doing this here)
+
+
+    # Format Data for Theano
     x = np.append(train_set[0],valid_set[0])
     x = np.append(x, test_set[0])
     y = np.append(train_set[1],valid_set[1])
@@ -100,18 +129,27 @@ def load_data():
     ywn = yw.transpose()
     print "x_size"
     print x.size
-    x = np.reshape(x,(250000,30))
+    len_y = y.size
+    print "y_size"
+    print y.size
+    print "width_x"
+    width_x = x.size/len_y
+    print width_x
+    #x = np.reshape(x,(250000,30))
+    x = np.reshape(x,(len_y,width_x))
     xyw = np.hstack((x,ywn))
 
-    xyw = np.reshape(xyw, (250000,32))
+    #xyw = np.reshape(xyw, (250000,32))
+    xyw = np.reshape(xyw, (len_y,width_x+2))
 
-    np.random.shuffle(xyw) #(np.random.permutation(xyw.transpose())).transpose()
-
-    len = 250000
-    train_set = (xyw[0:int(0.8*len),0:30],xyw[0:int(0.8*len),-2],xyw[0:int(0.8*len),-1])
-    test_set =  (xyw[int(0.8*len):int(0.9*len),0:30],xyw[int(0.8*len):int(0.9*len),-2],xyw[int(0.8*len):int(0.9*len),-1])
-    valid_set = (xyw[int(0.9*len):len,0:30],xyw[int(0.9*len):len,-2],xyw[int(0.9*len):len,-1])
+    #np.random.shuffle(xyw) #(np.random.permutation(xyw.transpose())).transpose()
     
+    #len = 250000
+    len = 40000
+    train_set = (xyw[0:int(0.8*len),0:width_x],xyw[0:int(0.8*len),-2],xyw[0:int(0.8*len),-1])
+    test_set =  (xyw[int(0.8*len):int(0.9*len),0:width_x],xyw[int(0.8*len):int(0.9*len),-2],xyw[int(0.8*len):int(0.9*len),-1])
+    valid_set = (xyw[int(0.9*len):len,0:width_x],xyw[int(0.9*len):len,-2],xyw[int(0.9*len):len,-1])
+
     print 'data is being converted into theano shared_dataset'
     test_set_x, test_set_y, test_set_w = shared_dataset(test_set)
     valid_set_x, valid_set_y, valid_set_w = shared_dataset(valid_set)
@@ -120,13 +158,75 @@ def load_data():
     rval = [(train_set_x, train_set_y, train_set_w), (valid_set_x, valid_set_y, valid_set_w),(test_set_x, test_set_y, test_set_w)]
     return rval
 
-
-
+def plot_improvement(measures):
+    n_events = measures[:,0]
+    percent = 1-measures[:,1]
+    S = measures[:,2]
+    B = measures[:,3]
+    s = measures[:,4]
+    b = measures[:,5]
+    s_sqrt_b = np.sqrt(np.divide(s,b))
+    sig_eff = np.divide(s,S)
+    bg_eff = np.divide(b,B)
+    purity = np.divide(s,np.add(s,b))
+    #print "measures:"
+    #print measures
+    print " n_events"
+    print n_events
+    print "percent"
+    print percent
+    plt.figure(0)
+    plt.plot(n_events,percent,label = "Percent Accuracy (%)")
+    #plt.plot(n_events,S,label = "S")
+    #plt.plot(n_events,B,label = "B")
+    #plt.plot(n_events,s,label = "s")
+    #plt.plot(n_events,b,label = "b")
+    #plt.plot(n_events,s_sqrt_b,label = "s/sqrt(b)")
+    plt.plot(n_events,sig_eff,label = "signal efficiency (s/S)")
+    plt.plot(n_events,bg_eff,label = "background efficiency (b/B)")
+    #plt.plot(n_events,purity,label = "purity (s/(s+b))")
+    plt.title("Improvement with Increased Training")
+    plt.xlabel("Number of Training Epochs")
+    plt.ylabel(" ")
+    plt.legend(loc='lower right', shadow=False, ncol=1)
+    plt.savefig("improvement.pdf")
+    
+ 
+def plot_roc(measures):
+    '''
+    plt.figure(1)
+    n_events = measures[:,0]
+    percent = 1-measures[:,1]
+    S = measures[:,2]
+    B = measures[:,3]
+    s = measures[:,4]
+    b = measures[:,5]
+    s_sqrt_b = np.sqrt(np.divide(s,b))
+    sig_eff = np.divide(s,S)
+    bg_eff = 1-np.divide(b,B)
+    purity = np.divide(s,np.add(s,b))
+    #print "measures:"
+    #print measures
+    print " n_events"
+    print n_events
+    print "percent"
+    print percent
+    print "sig_eff"
+    print sig_eff
+    print "bg_eff"
+    print bg_eff
+    plt.plot(sig_eff,bg_eff,label = "ROC Curve")
+    plt.title("ROC Curve")
+    plt.xlabel("Signal Efficiency")
+    plt.ylabel("1 - Background Efficiency")
+    plt.legend(loc='lower right', shadow=False, ncol=1)
+    plt.savefig("roc.pdf")
+    '''
 def sgd_optimization(learning_rate, n_epochs,
                            batch_size, patience, 
                            patience_increase, improvement_threshold,
                            submit_threshold):
-
+    measures = np.array([]).reshape(0,6)
     datasets = load_data()
     
     print 'finished loading data'
@@ -143,7 +243,9 @@ def sgd_optimization(learning_rate, n_epochs,
     ######################
     # BUILD ACTUAL MODEL #
     ######################
-    
+    #width_x,len_y = T.shape(train_set_x)
+
+    width_x =5 #Change this
     print '... building the model'
 
     # allocate symbolic variables for the data
@@ -158,7 +260,7 @@ def sgd_optimization(learning_rate, n_epochs,
     # construct the logistic regression class
     # Each set of data has size 30 
     # Number of outputs is 2 
-    classifier = LogisticRegression(input=x, n_in=30, n_out=2)
+    classifier = LogisticRegression(input=x, n_in=width_x, n_out=2, discriminant_threshold = submit_threshold)
     #classifier = LogisticRegression(input=x, n_in=28*28, n_out=10)
 
     # the cost we minimize during training is the negative log likelihood of
@@ -178,6 +280,24 @@ def sgd_optimization(learning_rate, n_epochs,
         }
     )
 
+    test_asimov_model = theano.function(
+        inputs=[index],
+        outputs=classifier.asimov_errors(y),
+        givens={
+            x: test_set_x[index * batch_size: (index + 1) * batch_size],
+            y: test_set_y[index * batch_size: (index + 1) * batch_size]
+            #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
+        }
+    )
+    output_model = theano.function(
+        inputs=[index],
+        outputs=classifier.pred(x),
+        givens={
+            x: test_set_x[index * batch_size: (index + 1) * batch_size],
+            #y: test_set_y[index * batch_size: (index + 1) * batch_size]
+            #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
+        }
+    )
     validate_model = theano.function(
         inputs=[index],
         outputs=classifier.errors(y),
@@ -268,9 +388,34 @@ def sgd_optimization(learning_rate, n_epochs,
 
                     test_losses = [test_model(i)
                                    for i in xrange(n_test_batches)]
+                    y_pred = np.array([output_model(i)
+                                   for i in xrange(n_test_batches)])
+                    ### think problem is here
                     test_score = numpy.mean(test_losses)
-                    test_std_dev = numpy.std(test_losses)
+                    #-----------------
+                    #test_std_dev = numpy.std(test_losses)
+                    test_std_dev = numpy.std(test_losses)/math.sqrt(len(test_losses))
+                    output= np.sum([test_asimov_model(i) 
+                                   for i in xrange(n_test_batches)], axis = 0)
+                    S,B,s,b= output
+                    S = float(S)
+                    B = float(B)
+                    s = float(s)
+                    b = float(b)
+                    print "S: "+str(S)
+                    print "B: "+str(B)
+                    print "s: "+str(s)
+                    print "b: "+str(b)
+                    #asimov_sig = (s/math.sqrt(b)) #approximation 
+                    if(b!=0):
+                        asimov_sig = math.sqrt(2*((s+b)*math.log(1+s/b)-s))#math.sqrt(2(s+b))#*math.log(1+s/b)-s))
+                    else:
+                        asimov_sig = 10000
+                    print "asimov: "+str(asimov_sig)
+                    n_events = epoch
+                    measures = np.vstack((measures,np.array([n_events,test_score, S,B,s,b])))
 
+                    #-----------------------
                     print(('     epoch %i, minibatch %i/%i, test error of'
                            ' best model %f %%') %
                         (
@@ -289,6 +434,20 @@ def sgd_optimization(learning_rate, n_epochs,
     print(('Optimization complete with best validation score of %f %%,'
             'with test performance %f %%')
             % (best_validation_loss * 100., test_score * 100.))
+    print "S: "+str(S)
+    print "B: "+str(B)
+    print "s: "+str(s)
+    print "b: "+str(b)
+    print "asimov: "+str(asimov_sig)
+    print "y_pred:"
+    print y_pred.flatten()
+    print "MET"
+    met = np.transpose(test_set_x[:,0].eval())
+    print met 
+    results = (met, test_losses)
+    last_measures = np.array([submit_threshold,test_score, S,B,s,b])
+    plot_improvement(measures)
+
     print (('The code ran for %d epochs, with %f epochs/sec') % 
           (epoch, 1. * epoch / (end_time - start_time)))
 
@@ -314,7 +473,7 @@ def sgd_optimization(learning_rate, n_epochs,
     ######################
     # TODO: would be really nice to have this as a function like load_data
     #       input = name of classifier
-    arg1 = 1
+    arg1 = 0
     if (arg1== 1): 
         print 'submission set is being loaded'
         with open("../data/test_data.p", 'rb') as f:
@@ -337,6 +496,65 @@ def sgd_optimization(learning_rate, n_epochs,
         print('submission is being saved')
         np.savetxt("submission.csv",submission,fmt='%s',delimiter=',')
         print('complete')
+    return last_measures
+    #return results
+
+
+def roc_run():
+    measures2 = np.array([]).reshape(0,6)
+    for i in np.arange(0,1.2,0.2):
+        parameters = dict(
+            learning_rate = 0.13, 
+            n_epochs = 1000,
+            batch_size = 600,
+            patience = 5000, 
+            patience_increase = 2,
+            improvement_threshold = 0.995,
+            submit_threshold = i)
+        last_measures = sgd_optimization(**parameters)
+        measures2 = np.vstack((measures2,last_measures))
+    plot_roc(measures2)
+
+def turn_on_curve():
+    print "Using hard-coded values"
+    parameters = dict(
+        learning_rate = 0.13, 
+        n_epochs = 1000,
+        batch_size = 600,
+        patience = 5000, 
+        patience_increase = 2,
+        improvement_threshold = 0.995,
+        submit_threshold = 0.5)
+    measures = sgd_optimization(**parameters)
+    print "measures" 
+    print measures
+    #measures3 = np.array([]).reshape(0,7)
+    MET = measures[0]
+    print "MET"
+    print MET
+    y_prediction = measures[1]
+    print "y-pred"
+    print y_prediction
+    #sum_y = sum(y_prediction)
+    min_x_calc = min(MET)
+    max_x_calc = max(MET)
+    binwidth = (max_x_calc-min_x_calc)/100
+    p1 = plt.hist( MET,
+                #range=[min_x_calc,max_x_calc],
+                bins = np.arange(min_x_calc, max_x_calc + binwidth, binwidth),
+                weights = y_prediction)#,
+    '''
+    label = ,
+    linewidth = 0.0, 
+    edgecolor = None,
+    histtype = 'barstacked',
+    color = ['blue','red'],
+    alpha = 0.8 )
+    '''
+    plt.title("Turn On Curve")
+    plt.xlabel("MET (GeV)")
+    plt.ylabel("Signal efficiency")
+    plt.savefig("turn_on_curve"+".pdf")
 
 if __name__ == '__main__':
     if len(sys.argv)>1:
@@ -353,6 +571,9 @@ if __name__ == '__main__':
         sgd_optimization(**parameters)
         
     else:
+        #roc_run()
+        #turn_on_curve()
+        
         print "Using hard-coded values"
         parameters = dict(
             learning_rate = 0.13, 
@@ -363,3 +584,4 @@ if __name__ == '__main__':
             improvement_threshold = 0.995,
             submit_threshold = 0.5)
         sgd_optimization(**parameters)
+        

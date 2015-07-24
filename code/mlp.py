@@ -141,7 +141,9 @@ def test_mlp(learning_rate,
     classifier = MLP(
         rng=rng,
         input=x,
-        n_in=30,
+        #n_in=30,
+        #n_in=4,
+        n_in=4,
         n_hidden=n_hidden,
         n_out=2
     )
@@ -273,8 +275,8 @@ def test_mlp(learning_rate,
                     test_losses = [test_model(i) for i
                                    in xrange(n_test_batches)]
                     test_score = numpy.mean(test_losses)
-                    test_std_dev = numpy.std(test_losses)
-
+                    test_std_dev = numpy.std(test_losses)/math.sqrt(len(test_losses))
+                    #test_std_dev = numpy.std(test_losses)
                     print(('     epoch %i, minibatch %i/%i, test error of '
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,

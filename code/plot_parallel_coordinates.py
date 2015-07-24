@@ -30,16 +30,18 @@ fig = matplotlib.figure.Figure() # create the figure
 agg.FigureCanvasAgg(fig)         # attach the rasterizer
 ax = fig.add_subplot(1, 1, 1)    # make axes to plot on
 
-#array = cPickle.load(open("array.p","rb"))
-array = cPickle.load(open("linear_search.p","rb"))
+array = cPickle.load(open("array.p","rb"))
+#array = cPickle.load(open("linear_search.p","rb"))
 table = pandas.DataFrame(array)
-#header = cPickle.load(open("header.p","rb"))
+header = cPickle.load(open("header.p","rb"))
 #header = header.split(",")
 num_cols = 7# 11
+'''
 header = ["finetuning learning rate", "pre-training epochs",
            "pre-training learning rate", "training epochs",
            "batch size", "neurons per layer",
            "number of layers"]
+'''
 v = 2000 #number of lines to view (debug)
 w = 20
 mins = table.min()
@@ -72,7 +74,7 @@ print  table.ix[0:v,0:w]
 print "scaled"
 print scaled.ix[0:v,0:w]
 #sorted_ = scaled.sort_index(axis = 0,by = 7 )
-sorted1 = scaled.ix[0:v,0:w].sort(num_cols, axis = 0)#, ascending = False) #works with 6 but not 7
+sorted1 = scaled.ix[0:v,0:w].sort(num_cols, axis = 0, ascending = False) #works with 6 but not 7
 print "sorted"
 print sorted1
 sorted1 = sorted1.reset_index(drop=True)

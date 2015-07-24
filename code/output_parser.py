@@ -103,5 +103,7 @@ for file in files:
     save_time = None
 print("Number of files parsed: "+str(file_count))
 print("Number of empty files: "+str(file_count-good_file_count))
-cPickle.dump( array, open( "array_sda.p", "wb" ))
-cPickle.dump( save_header, open("header_sda.p", "wb" ))
+cPickle.dump( array, open( "array.p", "wb" ), protocol=cPickle.HIGHEST_PROTOCOL)
+cPickle.dump( save_header, open("header.p", "wb" ))
+
+
