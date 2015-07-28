@@ -38,36 +38,13 @@ class SdA(object):
         self,
         numpy_rng,
         theano_rng=None,
-        n_ins=4,
+        n_ins=5,
         hidden_layers_sizes=[28, 28],#original [500,500]
         n_outs=2,
-        corruption_levels=[0.1, 0.1]
+        corruption_levels=[0.1, 0.1],
+        discriminant_threshold = 0.5
     ):
-        """ This class is made to support a variable number of layers.
-
-        :type numpy_rng: numpy.random.RandomState
-        :param numpy_rng: numpy random number generator used to draw initial
-                    weights
-
-        :type theano_rng: theano.tensor.shared_randomstreams.RandomStreams
-        :param theano_rng: Theano random generator; if None is given one is
-                           generated based on a seed drawn from `rng`
-
-        :type n_ins: int
-        :param n_ins: dimension of the input to the sdA
-
-        :type n_layers_sizes: list of ints
-        :param n_layers_sizes: intermediate layers size, must contain
-                               at least one value
-
-        :type n_outs: int
-        :param n_outs: dimension of the output of the network
-
-        :type corruption_levels: list of float
-        :param corruption_levels: amount of corruption to use for each
-                                  layer
-        """
-
+        
         self.sigmoid_layers = []
         self.dA_layers = []
         self.params = []
@@ -119,11 +96,7 @@ class SdA(object):
                                         activation=T.nnet.sigmoid)
             # add the layer to our list of layers
             self.sigmoid_layers.append(sigmoid_layer)
-            # its arguably a philosophical question...
-            # but we are going to only declare that the parameters of the
-            # sigmoid_layers are parameters of the StackedDAA
-            # the visible biases in the dA are parameters of those
-            # dA, but not the SdA
+   
             self.params.extend(sigmoid_layer.params)
 
             # Construct a denoising autoencoder that shared weights with this
@@ -141,7 +114,8 @@ class SdA(object):
         self.logLayer = LogisticRegression(
             input=self.sigmoid_layers[-1].output,
             n_in=hidden_layers_sizes[-1],
-            n_out=n_outs
+            n_out=n_outs,
+            discriminant_threshold = discriminant_threshold
         )
 
         self.params.extend(self.logLayer.params)
@@ -150,15 +124,36 @@ class SdA(object):
         # compute the cost for second phase of training,
         # defined as the negative log likelihood
         self.finetune_cost = self.logLayer.negative_log_likelihood(self.y)
-        # compute the gradients with respect to the model parameters
-        # symbolic variable that points to the number of errors made on the
-        # minibatch given by self.x and self.y
         self.errors = self.logLayer.errors(self.y)
+        self.py_given_x = self.logLayer.p_y_given_x
+
     def output(self, x):
         x = self.sigmoid_layers[0].outputer(x)
         x = self.sigmoid_layers[1].outputer(x)
-        x = self.logRegressionLayer.output(x)
+        x = self.logLayer.output(x)
         return x
+    def asimov_errors(self, y):
+        # check if y has same dimension of y_pred
+        if y.ndim != self.logLayer.y_pred.ndim:
+            raise TypeError(
+                'y should have the same shape as self.y_pred',
+                ('y', y.type, 'y_pred', self.y_pred.type)
+            )
+        # check if y is of the correct datatype
+        if y.dtype.startswith('int'):
+            S = T.sum(T.eq(y,1))
+            B = T.sum(T.eq(y,0))#*10000 # TODO: cross-section scaling
+            s = T.sum(T.and_(T.eq(y,1),T.eq(self.logLayer.y_pred,1)))
+            b = T.sum(T.and_(T.eq(y,0),T.eq(self.logLayer.y_pred,1)))#*10000 TODO: cross-section scaling
+            return(S,B,s,b)
+            # represents a mistake in prediction
+        else:
+            raise NotImplementedError()
+
+    def prediction(self,y):
+        p_y_and_y = self.logLayer.p_y_given_x[:,1], y
+        return  p_y_and_y
+
 
 
     def pretraining_functions(self, train_set_x, batch_size):
@@ -282,6 +277,26 @@ class SdA(object):
             name='test'
         )
 
+        test_asimov_model = theano.function(
+            inputs=[index],
+            outputs=self.asimov_errors(self.y),
+            givens={
+                self.x: test_set_x[index * batch_size: (index + 1) * batch_size],
+                self.y: test_set_y[index * batch_size: (index + 1) * batch_size]
+                #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
+            }
+        )
+        
+        get_prediction_model = theano.function(
+            inputs=[index],
+            outputs=self.prediction(self.y),
+            givens={
+                self.x: test_set_x[index * batch_size: (index + 1) * batch_size],
+                self.y: test_set_y[index * batch_size: (index + 1) * batch_size]
+                #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
+            }
+        )
+
         valid_score_i = theano.function(
             [index],
             self.errors,
@@ -304,7 +319,13 @@ class SdA(object):
         def test_score():
             return [test_score_i(i) for i in xrange(n_test_batches)]
 
-        return train_fn, valid_score, test_score
+        def asimov_score():
+            return np.sum([test_asimov_model(i) 
+                                   for i in xrange(n_test_batches)], axis = 0)
+        def prediction_score():
+            return np.vstack([np.reshape(np.ravel(get_prediction_model(i), order='F'),(-1,2))
+                                   for i in xrange(n_test_batches)])
+        return train_fn, valid_score, test_score, asimov_score, prediction_score
 
 
 def test_SdA(finetune_lr, patience, 
@@ -338,8 +359,8 @@ def test_SdA(finetune_lr, patience,
     :param dataset: path the the pickled dataset
 
     """
-
-    datasets = load_data()
+    measures = np.array([]).reshape(0,6)
+    datasets,width_x = load_data()
 
     train_set_x, train_set_y, train_set_w = datasets[0]
     valid_set_x, valid_set_y, valid_set_w = datasets[1]
@@ -356,12 +377,12 @@ def test_SdA(finetune_lr, patience,
     # construct the stacked denoising autoencoder class
     sda = SdA(
         numpy_rng=numpy_rng,
-        n_ins=4,
+        n_ins=width_x,
         #hidden_layers_sizes=[32, 32, 32], # orginally [1000, 1000, 1000] 
         hidden_layers_sizes=np.ones((number_of_layers,), dtype=int)*neurons_per_layer,
-        n_outs=2
+        n_outs=2, discriminant_threshold = submit_threshold
     )
-    # end-snippet-3 start-snippet-4
+
     #########################
     # PRETRAINING THE MODEL #
     #########################
@@ -391,14 +412,14 @@ def test_SdA(finetune_lr, patience,
     print >> sys.stderr, ('The pretraining code for file ' +
                           os.path.split(__file__)[1] +
                           ' ran for %.2fm' % ((end_time - start_time) / 60.))
-    # end-snippet-4
+
     ########################
     # FINETUNING THE MODEL #
     ########################
 
     # get the training, validation and testing function for the model
     print '... getting the finetuning functions'
-    train_fn, validate_model, test_model = sda.build_finetune_functions(
+    train_fn, validate_model, test_model, asimov_model, prediction_score = sda.build_finetune_functions(
         datasets=datasets,
         batch_size=batch_size,
         learning_rate=finetune_lr
@@ -453,9 +474,29 @@ def test_SdA(finetune_lr, patience,
 
                     # test it on the test set
                     test_losses = test_model()
+                    p_y_and_y = prediction_score()
                     test_score = numpy.mean(test_losses)
                     #test_std_dev = numpy.std(test_losses)
                     test_std_dev = numpy.std(test_losses)/math.sqrt(len(test_losses))
+                    output= asimov_model()
+                    S,B,s,b= output
+                    S = float(S)
+                    B = float(B)
+                    s = float(s)
+                    b = float(b)
+                    print "S: "+str(S)
+                    print "B: "+str(B)
+                    print "s: "+str(s)
+                    print "b: "+str(b)
+                    #asimov_sig = (s/math.sqrt(b)) #approximation 
+                    if(b!=0):
+                        asimov_sig = math.sqrt(2*((s+b)*math.log(1+s/b)-s))#math.sqrt(2(s+b))#*math.log(1+s/b)-s))
+                    else:
+                        asimov_sig = 10000
+                    print "asimov: "+str(asimov_sig)
+                    n_events = epoch
+                    measures = np.vstack((measures,np.array([n_events,test_score, S,B,s,b])))
+
                     print(('     epoch %i, minibatch %i/%i, test error of '
                            'best model %f %%') %
                           (epoch, minibatch_index + 1, n_train_batches,
@@ -578,9 +619,12 @@ def test_SdA(finetune_lr, patience,
     print('complete')
 
     '''
+    #return measures
+    return p_y_and_y
+
 if __name__ == '__main__':
-    
-    if len(sys.argv)>1:
+     
+    if len(sys.argv)>2:
         print "Using passed parameters"
         name,batch_size,finetune_lr,improvement_threshold, neurons_per_layer,number_of_layers, patience, patience_increase, pretraining_epochs,pretrain_lr, submit_threshold,training_epochs = sys.argv
         parameters = dict(

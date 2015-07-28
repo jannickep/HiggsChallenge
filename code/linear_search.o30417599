@@ -1,0 +1,1078 @@
+----------------------------------------
+Begin PBS Prologue Tue Jul 28 13:56:01 PDT 2015 1438116961
+Job ID:		30417599.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Nodes:		hermes0132
+End PBS Prologue Tue Jul 28 13:56:01 PDT 2015 1438116961
+----------------------------------------
+Current working directory is /home/jpearkes/HiggsChallenge/code
+Starting run at: Tue Jul 28 13:56:02 PDT 2015
+--------------------------------------------------------------------------
+An MPI process has executed an operation involving a call to the
+"fork()" system call to create a child process.  Open MPI is currently
+operating in a condition that could result in memory corruption or
+other system errors; your MPI job may hang, crash, or produce silent
+data corruption.  The use of fork() (or system() or other calls that
+create child processes) is strongly discouraged.  
+
+The process that invoked fork was:
+
+  Local host:          hermes0132 (PID 13217)
+  MPI_COMM_WORLD rank: 0
+
+If you are *absolutely sure* that your application will successfully
+and correctly survive a call to fork(), you may disable this warning
+by setting the mpi_warn_on_fork MCA parameter to 0.
+--------------------------------------------------------------------------
+INFO (theano.gof.compilelock): Waiting for existing lock by process '14383' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+Couldn't import dot_parser, loading of dot files will not be possible.
+loading data
+Using high level inputs
+x_size
+80000
+y_size
+40000
+width_x
+2
+data is being converted into theano shared_dataset
+finished loading data
+... building the model
+... training the model
+epoch 1, minibatch 53/53, validation error 17.916667 %
+S: 1800.0
+B: 1800.0
+s: 1272.0
+b: 94.0
+asimov: 69.0491180862
+     epoch 1, minibatch 53/53, test error of best model 17.277778 %
+epoch 2, minibatch 53/53, validation error 16.333333 %
+S: 1800.0
+B: 1800.0
+s: 1291.0
+b: 65.0
+asimov: 75.2117299536
+     epoch 2, minibatch 53/53, test error of best model 15.944444 %
+epoch 3, minibatch 53/53, validation error 15.833333 %
+S: 1800.0
+B: 1800.0
+s: 1308.0
+b: 67.0
+asimov: 75.453098508
+     epoch 3, minibatch 53/53, test error of best model 15.527778 %
+epoch 4, minibatch 53/53, validation error 15.194444 %
+S: 1800.0
+B: 1800.0
+s: 1331.0
+b: 69.0
+asimov: 75.9364130758
+     epoch 4, minibatch 53/53, test error of best model 14.944444 %
+epoch 5, minibatch 53/53, validation error 14.916667 %
+S: 1800.0
+B: 1800.0
+s: 1343.0
+b: 71.0
+asimov: 75.9865531361
+     epoch 5, minibatch 53/53, test error of best model 14.666667 %
+epoch 6, minibatch 53/53, validation error 14.638889 %
+S: 1800.0
+B: 1800.0
+s: 1355.0
+b: 73.0
+asimov: 76.0428689898
+     epoch 6, minibatch 53/53, test error of best model 14.388889 %
+epoch 7, minibatch 53/53, validation error 14.500000 %
+S: 1800.0
+B: 1800.0
+s: 1360.0
+b: 74.0
+asimov: 76.0342352982
+     epoch 7, minibatch 53/53, test error of best model 14.277778 %
+epoch 8, minibatch 53/53, validation error 14.305556 %
+S: 1800.0
+B: 1800.0
+s: 1370.0
+b: 79.0
+asimov: 75.4374363191
+     epoch 8, minibatch 53/53, test error of best model 14.138889 %
+epoch 9, minibatch 53/53, validation error 14.138889 %
+S: 1800.0
+B: 1800.0
+s: 1380.0
+b: 82.0
+asimov: 75.2567620435
+     epoch 9, minibatch 53/53, test error of best model 13.944444 %
+epoch 10, minibatch 53/53, validation error 14.138889 %
+epoch 11, minibatch 53/53, validation error 14.083333 %
+S: 1800.0
+B: 1800.0
+s: 1398.0
+b: 86.0
+asimov: 75.2150690377
+     epoch 11, minibatch 53/53, test error of best model 13.555556 %
+epoch 12, minibatch 53/53, validation error 14.000000 %
+S: 1800.0
+B: 1800.0
+s: 1401.0
+b: 87.0
+asimov: 75.1511647807
+     epoch 12, minibatch 53/53, test error of best model 13.500000 %
+epoch 13, minibatch 53/53, validation error 13.833333 %
+S: 1800.0
+B: 1800.0
+s: 1405.0
+b: 88.0
+asimov: 75.126433866
+     epoch 13, minibatch 53/53, test error of best model 13.416667 %
+epoch 14, minibatch 53/53, validation error 13.722222 %
+S: 1800.0
+B: 1800.0
+s: 1407.0
+b: 88.0
+asimov: 75.2017856658
+     epoch 14, minibatch 53/53, test error of best model 13.361111 %
+epoch 15, minibatch 53/53, validation error 13.694444 %
+S: 1800.0
+B: 1800.0
+s: 1413.0
+b: 89.0
+asimov: 75.2532594219
+     epoch 15, minibatch 53/53, test error of best model 13.222222 %
+epoch 16, minibatch 53/53, validation error 13.583333 %
+S: 1800.0
+B: 1800.0
+s: 1416.0
+b: 93.0
+asimov: 74.6857934967
+     epoch 16, minibatch 53/53, test error of best model 13.250000 %
+epoch 17, minibatch 53/53, validation error 13.611111 %
+epoch 18, minibatch 53/53, validation error 13.555556 %
+S: 1800.0
+B: 1800.0
+s: 1419.0
+b: 96.0
+asimov: 74.3049948201
+     epoch 18, minibatch 53/53, test error of best model 13.250000 %
+epoch 19, minibatch 53/53, validation error 13.583333 %
+epoch 20, minibatch 53/53, validation error 13.500000 %
+S: 1800.0
+B: 1800.0
+s: 1422.0
+b: 100.0
+asimov: 73.7809319053
+     epoch 20, minibatch 53/53, test error of best model 13.277778 %
+epoch 21, minibatch 53/53, validation error 13.416667 %
+S: 1800.0
+B: 1800.0
+s: 1424.0
+b: 101.0
+asimov: 73.6995181478
+     epoch 21, minibatch 53/53, test error of best model 13.250000 %
+epoch 22, minibatch 53/53, validation error 13.388889 %
+S: 1800.0
+B: 1800.0
+s: 1427.0
+b: 101.0
+asimov: 73.8099766157
+     epoch 22, minibatch 53/53, test error of best model 13.166667 %
+epoch 23, minibatch 53/53, validation error 13.361111 %
+S: 1800.0
+B: 1800.0
+s: 1429.0
+b: 101.0
+asimov: 73.8835681494
+     epoch 23, minibatch 53/53, test error of best model 13.111111 %
+epoch 24, minibatch 53/53, validation error 13.361111 %
+epoch 25, minibatch 53/53, validation error 13.250000 %
+S: 1800.0
+B: 1800.0
+s: 1430.0
+b: 103.0
+asimov: 73.6136900495
+     epoch 25, minibatch 53/53, test error of best model 13.138889 %
+epoch 26, minibatch 53/53, validation error 13.222222 %
+S: 1800.0
+B: 1800.0
+s: 1432.0
+b: 104.0
+asimov: 73.5357148381
+     epoch 26, minibatch 53/53, test error of best model 13.111111 %
+epoch 27, minibatch 53/53, validation error 13.222222 %
+epoch 28, minibatch 53/53, validation error 13.166667 %
+S: 1800.0
+B: 1800.0
+s: 1436.0
+b: 105.0
+asimov: 73.5319660234
+     epoch 28, minibatch 53/53, test error of best model 13.027778 %
+epoch 29, minibatch 53/53, validation error 13.138889 %
+S: 1800.0
+B: 1800.0
+s: 1441.0
+b: 105.0
+asimov: 73.7145066987
+     epoch 29, minibatch 53/53, test error of best model 12.888889 %
+epoch 30, minibatch 53/53, validation error 13.111111 %
+S: 1800.0
+B: 1800.0
+s: 1442.0
+b: 106.0
+asimov: 73.6019208736
+     epoch 30, minibatch 53/53, test error of best model 12.888889 %
+epoch 31, minibatch 53/53, validation error 13.138889 %
+epoch 32, minibatch 53/53, validation error 13.138889 %
+epoch 33, minibatch 53/53, validation error 13.083333 %
+S: 1800.0
+B: 1800.0
+s: 1444.0
+b: 107.0
+asimov: 73.5269288878
+     epoch 33, minibatch 53/53, test error of best model 12.861111 %
+epoch 34, minibatch 53/53, validation error 13.138889 %
+epoch 35, minibatch 53/53, validation error 13.083333 %
+S: 1800.0
+B: 1800.0
+s: 1445.0
+b: 108.0
+asimov: 73.4167141954
+     epoch 35, minibatch 53/53, test error of best model 12.861111 %
+epoch 36, minibatch 53/53, validation error 13.083333 %
+epoch 37, minibatch 53/53, validation error 13.083333 %
+epoch 38, minibatch 53/53, validation error 13.055556 %
+S: 1800.0
+B: 1800.0
+s: 1448.0
+b: 113.0
+asimov: 72.8108301411
+     epoch 38, minibatch 53/53, test error of best model 12.916667 %
+epoch 39, minibatch 53/53, validation error 13.083333 %
+epoch 40, minibatch 53/53, validation error 13.083333 %
+epoch 41, minibatch 53/53, validation error 13.111111 %
+epoch 42, minibatch 53/53, validation error 13.055556 %
+epoch 43, minibatch 53/53, validation error 13.083333 %
+epoch 44, minibatch 53/53, validation error 13.055556 %
+epoch 45, minibatch 53/53, validation error 13.055556 %
+epoch 46, minibatch 53/53, validation error 13.055556 %
+epoch 47, minibatch 53/53, validation error 13.055556 %
+epoch 48, minibatch 53/53, validation error 13.027778 %
+S: 1800.0
+B: 1800.0
+s: 1453.0
+b: 115.0
+asimov: 72.713059979
+     epoch 48, minibatch 53/53, test error of best model 12.833333 %
+epoch 49, minibatch 53/53, validation error 13.000000 %
+S: 1800.0
+B: 1800.0
+s: 1454.0
+b: 115.0
+asimov: 72.748986091
+     epoch 49, minibatch 53/53, test error of best model 12.805556 %
+epoch 50, minibatch 53/53, validation error 12.972222 %
+S: 1800.0
+B: 1800.0
+s: 1454.0
+b: 116.0
+asimov: 72.6116782668
+     epoch 50, minibatch 53/53, test error of best model 12.833333 %
+epoch 51, minibatch 53/53, validation error 12.972222 %
+epoch 52, minibatch 53/53, validation error 12.972222 %
+epoch 53, minibatch 53/53, validation error 12.944444 %
+S: 1800.0
+B: 1800.0
+s: 1454.0
+b: 116.0
+asimov: 72.6116782668
+     epoch 53, minibatch 53/53, test error of best model 12.833333 %
+epoch 54, minibatch 53/53, validation error 12.916667 %
+S: 1800.0
+B: 1800.0
+s: 1454.0
+b: 116.0
+asimov: 72.6116782668
+     epoch 54, minibatch 53/53, test error of best model 12.833333 %
+epoch 55, minibatch 53/53, validation error 12.916667 %
+epoch 56, minibatch 53/53, validation error 12.916667 %
+epoch 57, minibatch 53/53, validation error 12.888889 %
+S: 1800.0
+B: 1800.0
+s: 1456.0
+b: 116.0
+asimov: 72.6834185371
+     epoch 57, minibatch 53/53, test error of best model 12.777778 %
+epoch 58, minibatch 53/53, validation error 12.861111 %
+S: 1800.0
+B: 1800.0
+s: 1456.0
+b: 116.0
+asimov: 72.6834185371
+     epoch 58, minibatch 53/53, test error of best model 12.777778 %
+epoch 59, minibatch 53/53, validation error 12.861111 %
+epoch 60, minibatch 53/53, validation error 12.861111 %
+epoch 61, minibatch 53/53, validation error 12.861111 %
+eINFO (theano.gof.compilelock): Waiting for existing lock by process '7357' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '7357' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+poch 62, minibatch 53/53, validation error 12.861111 %
+epoch 63, minibatch 53/53, validation error 12.861111 %
+epoch 64, minibatch 53/53, validation error 12.888889 %
+epoch 65, minibatch 53/53, validation error 12.833333 %
+S: 1800.0
+B: 1800.0
+s: 1459.0
+b: 117.0
+asimov: 72.6545638613
+     epoch 65, minibatch 53/53, test error of best model 12.722222 %
+epoch 66, minibatch 53/53, validation error 12.833333 %
+epoch 67, minibatch 53/53, validation error 12.833333 %
+epoch 68, minibatch 53/53, validation error 12.833333 %
+epoch 69, minibatch 53/53, validation error 12.861111 %
+epoch 70, minibatch 53/53, validation error 12.833333 %
+epoch 71, minibatch 53/53, validation error 12.833333 %
+epoch 72, minibatch 53/53, validation error 12.805556 %
+S: 1800.0
+B: 1800.0
+s: 1460.0
+b: 119.0
+asimov: 72.4207669096
+     epoch 72, minibatch 53/53, test error of best model 12.750000 %
+epoch 73, minibatch 53/53, validation error 12.777778 %
+S: 1800.0
+B: 1800.0
+s: 1460.0
+b: 119.0
+asimov: 72.4207669096
+     epoch 73, minibatch 53/53, test error of best model 12.750000 %
+epoch 74, minibatch 53/53, validation error 12.777778 %
+epoch 75, minibatch 53/53, validation error 12.777778 %
+epoch 76, minibatch 53/53, validation error 12.750000 %
+S: 1800.0
+B: 1800.0
+s: 1461.0
+b: 121.0
+asimov: 72.1910739845
+     epoch 76, minibatch 53/53, test error of best model 12.777778 %
+epoch 77, minibatch 53/53, validation error 12.750000 %
+epoch 78, minibatch 53/53, validation error 12.750000 %
+epoch 79, minibatch 53/53, validation error 12.750000 %
+epoch 80, minibatch 53/53, validation error 12.722222 %
+S: 1800.0
+B: 1800.0
+s: 1464.0
+b: 121.0
+asimov: 72.2978614903
+     epoch 80, minibatch 53/53, test error of best model 12.694444 %
+epoch 81, minibatch 53/53, validation error 12.722222 %
+epoch 82, minibatch 53/53, validation error 12.694444 %
+S: 1800.0
+B: 1800.0
+s: 1464.0
+b: 122.0
+asimov: 72.1666083578
+     epoch 82, minibatch 53/53, test error of best model 12.722222 %
+epoch 83, minibatch 53/53, validation error 12.638889 %
+S: 1800.0
+B: 1800.0
+s: 1464.0
+b: 122.0
+asimov: 72.1666083578
+     epoch 83, minibatch 53/53, test error of best model 12.722222 %
+epoch 84, minibatch 53/53, validation error 12.638889 %
+epoch 85, minibatch 53/53, validation error 12.638889 %
+epoch 86, minibatch 53/53, validation error 12.611111 %
+S: 1800.0
+B: 1800.0
+s: 1464.0
+b: 123.0
+asimov: 72.036376526
+     epoch 86, minibatch 53/53, test error of best model 12.750000 %
+epoch 87, minibatch 53/53, validation error 12.611111 %
+epoch 88, minibatch 53/53, validation error 12.611111 %
+epoch 89, minibatch 53/53, validation error 12.611111 %
+epoch 90, minibatch 53/53, validation error 12.611111 %
+epoch 91, minibatch 53/53, validation error 12.611111 %
+epoch 92, minibatch 53/53, validation error 12.583333 %
+S: 1800.0
+B: 1800.0
+s: 1464.0
+b: 123.0
+asimov: 72.036376526
+     epoch 92, minibatch 53/53, test error of best model 12.750000 %
+epoch 93, minibatch 53/53, validation error 12.583333 %
+epoch 94, minibatch 53/53, validation error 12.583333 %
+Optimization complete with best validation score of 12.583333 %,with test performance 12.750000 %
+S: 1800.0
+B: 1800.0
+s: 1464.0
+b: 123.0
+asimov: 72.036376526
+y_pred:
+[0 0 1 ..., 0 0 0]
+MET
+[-0.44863169 -0.52439392 -0.00229718 ..., -0.50434486  0.25364246
+ -0.5064946 ]
+The code ran for 95 epochs, with 77.868852 epochs/sec
+learning rate: 0.13
+epochs: 1000
+batch size: 600
+patience: 5000
+patience_increase: 2
+improvement_threshold0.995
+submit_threshold0.5
+Values: ~[learning_rate,n_epochs,batch_size,patience,patience_increase,improvement_threshold,submit_threshold,test_score,test_std_dev,time]~
+Matrix: {[0.13,1000,600,5000,2,0.995,0.5,12.75,0.572990315132,0.0203333333333]}
+p_y_and_y
+[[ 0.13649314  1.        ]
+ [ 0.07896347  0.        ]
+ [ 0.94223277  1.        ]
+ ..., 
+ [ 0.16276802  0.        ]
+ [ 0.21445195  1.        ]
+ [ 0.05062862  0.        ]]
+efficiencies_i
+(1.0, 0.0)
+efficiencies_i
+(0.98388888888888892, 0.29388888888888887)
+efficiencies_i
+(0.93500000000000005, 0.67166666666666663)
+efficiencies_i
+(0.88666666666666671, 0.82666666666666666)
+efficiencies_i
+(0.8444444INFO (theano.gof.compilelock): Waiting for existing lock by process '7357' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '22871' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '22871' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '22871' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '7357' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+4444444444, 0.89500000000000002)
+efficiencies_i
+(0.81333333333333335, 0.93166666666666664)
+efficiencies_i
+(0.77777777777777779, 0.95222222222222219)
+efficiencies_i
+(0.73944444444444446, 0.96611111111111114)
+efficiencies_i
+(0.68055555555555558, 0.98166666666666669)
+efficiencies_i
+(0.61222222222222222, 0.98944444444444446)
+efficiencies_i
+(0.0, 1.0)
+[[ 1.          0.        ]
+ [ 0.98388889  0.29388889]
+ [ 0.935       0.67166667]
+ [ 0.88666667  0.82666667]
+ [ 0.84444444  0.895     ]
+ [ 0.81333333  0.93166667]
+ [ 0.77777778  0.95222222]
+ [ 0.73944444  0.96611111]
+ [ 0.68055556  0.98166667]
+ [ 0.61222222  0.98944444]
+ [ 0.          1.        ]]
+sig_eff
+[ 1.          0.98388889  0.935       0.88666667  0.84444444  0.81333333
+  0.77777778  0.73944444  0.68055556  0.61222222  0.        ]
+bg_eff
+[ 0.          0.29388889  0.67166667  0.82666667  0.895       0.93166667
+  0.95222222  0.96611111  0.98166667  0.98944444  1.        ]
+loading data
+Using high level inputs
+x_size
+80000
+y_size
+40000
+width_x
+2
+data is being converted into theano shared_dataset
+... building the model
+... training
+epoch 1, minibatch 53/53, validation error 14.583333 %
+S: 1800.0
+B: 1800.0
+s: 1380.0
+b: 76.0
+asimov: 76.408806791
+     epoch 1, minibatch 53/53, test error of best model 13.777778 %
+epoch 2, minibatch 53/53, validation error 14.111111 %
+S: 1800.0
+B: 1800.0
+s: 1392.0
+b: 84.0
+asimov: 75.3474714708
+     epoch 2, minibatch 53/53, test error of best model 13.666667 %
+epoch 3, minibatch 53/53, validation error 14.027778 %
+S: 1800.0
+B: 1800.0
+s: 1397.0
+b: 89.0
+asimov: 74.6511538737
+     epoch 3, minibatch 53/53, test error of best model 13.666667 %
+epoch 4, minibatch 53/53, validation error 13.861111 %
+S: 1800.0
+B: 1800.0
+s: 1401.0
+b: 91.0
+asimov: 74.4599732095
+     epoch 4, minibatch 53/53, test error of best model 13.611111 %
+epoch 5, minibatch 53/53, validation error 13.777778 %
+S: 1800.0
+B: 1800.0
+s: 1407.0
+b: 93.0
+asimov: 74.3495977246
+     epoch 5, minibatch 53/53, test error of best model 13.500000 %
+epoch 6, minibatch 53/53, validation error 13.666667 %
+S: 1800.0
+B: 1800.0
+s: 1409.0
+b: 96.0
+asimov: 73.9332263397
+     epoch 6, minibatch 53/53, test error of best model 13.527778 %
+epoch 7, minibatch 53/53, validation error 13.583333 %
+S: 1800.0
+B: 1800.0
+s: 1411.0
+b: 96.0
+asimov: 74.0076578036
+     epoch 7, minibatch 53/53, test error of best model 13.472222 %
+epoch 8, minibatch 53/53, validation error 13.527778 %
+S: 1800.0
+B: 1800.0
+s: 1416.0
+b: 96.0
+asimov: 74.193566194
+     epoch 8, minibatch 53/53, test error of best model 13.333333 %
+epoch 9, minibatch 53/53, validation error 13.555556 %
+epoch 10, minibatch 53/53, validation error 13.500000 %
+S: 1800.0
+B: 1800.0
+s: 1418.0
+b: 97.0
+asimov: 74.1069025834
+     epoch 10, minibatch 53/53, test error of best model 13.305556 %
+epoch 11, minibatch 53/53, validation error 13.361111 %
+S: 1800.0
+B: 1800.0
+s: 1419.0
+b: 99.0
+asimov: 73.8266101846
+     epoch 11, minibatch 53/53, test error of best model 13.333333 %
+epoch 12, minibatch 53/53, validation error 13.388889 %
+epoch 13, minibatch 53/53, validation error 13.333333 %
+S: 1800.0
+B: 1800.0
+s: 1425.0
+b: 100.0
+asimov: 73.8915927851
+     epoch 13, minibatch 53/53, test error of best model 13.194444 %
+epoch 14, minibatch 53/53, validation error 13.166667 %
+S: 1800.0
+B: 1800.0
+s: 1426.0
+b: 102.0
+asimov: 73.6193183213
+     epoch 14, minibatch 53/53, test error of best model 13.222222 %
+epoch 15, minibatch 53/53, validation error 13.138889 %
+S: 1800.0
+B: 1800.0
+s: 1427.0
+b: 104.0
+asimov: 73.3525199999
+     epoch 15, minibatch 53/53, test error of best model 13.250000 %
+epoch 16, minibatch 53/53, validation error 13.166667 %
+epoch 17, minibatch 53/53, validation error 13.194444 %
+epoch 18, minibatch 53/53, validation error 13.166667 %
+epoch 19, minibatch 53/53, validation error 13.166667 %
+epoch 20, minibatch 53/53, validation error 13.138889 %
+S: 1800.0
+B: 1800.0
+s: 1430.0
+b: 106.0
+asimov: 73.1640984486
+     epoch 20, minibatch 53/53, test error of best model 13.222222 %
+epoch 21, minibatch 53/53, validation error 13.083333 %
+S: 1800.0
+B: 1800.0
+s: 1432.0
+b: 107.0
+asimov: 73.089879761
+     epoch 21, minibatch 53/53, test error of best model 13.194444 %
+epoch 22, minibatch 53/53, validation error 13.138889 %
+epoch 23, minibatch 53/53, validation error 13.166667 %
+epoch 24, minibatch 53/53, validation error 13.166667 %
+epoch 25, minibatch 53/53, validation error 13.138889 %
+epoch 26, minibatch 53/53, validation error 13.138889 %
+epoch 27, minibatch 53/53, validation error 13.055556 %
+S: 1800.0
+B: 1800.0
+s: 1443.0
+b: 107.0
+asimov: 73.490559012
+     epoch 27, minibatch 53/53, test error of best model 12.888889 %
+epoch 28, minibatch 53/53, validation error 13.055556 %
+epoch 29, minibatch 53/53, validation error 13.055556 %
+epoch 30, minibatch 53/53, validation error 13.055556 %
+epoch 31, minibatch 53/53, validation error 13.138889 %
+epoch 32, minibatch 53/53, validation error 13.138889 %
+epoch 33, minibatch 53/53, validation error 13.138889 %
+epoch 34, minibatch 53/53, validation error 13.111111 %
+epoch 35, minibatch 53/53, validation error 13.111111 %
+epoch 36, minibatch 53/53, validation error 13.111111 %
+epoch 37, minibatch 53/53, validation error 13.055556 %
+S: 1800.0
+B: 1800.0
+s: 1450.0
+b: 113.0
+asimov: 72.8829357504
+     epoch 37, minibatch 53/53, test error of best model 12.861111 %
+epoch 38, minibatch 53/53, validation error 13.055556 %
+epoch 39, minibatch 53/53, validation error 13.055556 %
+epoch 40, minibatch 53/53, validation error 13.027778 %
+S: 1800.0
+B: 1800.0
+s: 1452.0
+b: 115.0
+asimov: 72.677124883
+     epoch 40, minibatch 53/53, test error of best model 12.861111 %
+epoch 41, minibatch 53/53, validation error 13.027778 %
+epoch 42, minibatch 53/53, validation error 13.027778 %
+epoch 43, minibatch 53/53, validation error 13.000000 %
+S: 1800.0
+B: 1800.0
+s: 1454.0
+b: 118.0
+asimov: 72.3404066325
+     epoch 43, minibatch 53/53, test error of best model 12.888889 %
+epoch 44, minibatch 53/53, validation error 13.000000 %
+epoch 45, minibatch 53/53, validation error 13.000000 %
+epoch 46, minibatch 53/53, validation error 13.000000 %
+epoch 47, minibatch 53/53, validation error 12.972222 %
+S: 1800.0
+B: 1800.0
+s: 1455.0
+b: 119.0
+asimov: 72.2421559348
+     epoch 47, minibatch 53/53, test error of best model 12.888889 %
+epoch 48, minibatch 53/53, validation error 12.972222 %
+epoch 49, minibatch 53/53, validation error 13.027778 %
+epoch 50, minibatch 53/53, validation error 13.027778 %
+epoch 51, minibatch 53/53, validation error 12.972222 %
+S: 1800.0
+B: 1800.0
+s: 1458.0
+b: 120.0
+asimov: 72.2162521197
+     epoch 51, minibatch 53/53, test error of best model 12.833333 %
+epoch 52, minibatch 53/53, validation error 12.972222 %
+epoch 53, minibatch 53/53, validation error 13.000000 %
+epoch 54, minibatch 53/53, validation error 13.000000 %
+epoch 55, minibatch 53/53, validation error 13.000000 %
+epoch 56, minibatch 53/53, validation error 13.000000 %
+epoch 57, minibatch 53/53, validation error 13.000000 %
+epoch 58, minibatch 53/53, validation error 13.000000 %
+epoch 59, minibatch 53/53, validation error 12.972222 %
+epoch 60, minibatch 53/53, validation error 12.916667 %
+S: 1800.0
+B: 1800.0
+s: 1462.0
+b: 121.0
+asimov: 72.2266786183
+     epoch 60, minibatch 53/53, test error of best model 12.750000 %
+epoch 61, minibatch 53/53, validation error 12.861111 %
+S: 1800.0
+B: 1800.0
+s: 1462.0
+b: 121.0
+asimov: 72.2266786183
+     epoch 61, minibatch 53/53, test error of best model 12.750000 %
+epoch 62, minibatch 53/53, validation error 12.833333 %
+S: 1800.0
+B: 1800.0
+s: 1462.0
+b: 122.0
+asimov: 72.0955067086
+     epoch 62, minibatch 53/53, test error of best model 12.777778 %
+epoch 63, minibatch 53/53, validation error 12.833333 %
+epoch 64, minibatch 53/53, validation error 12.833333 %
+epoch 65, minibatch 53/53, validation error 12.805556 %
+S: 1800.0
+B: 1800.0
+s: 1463.0
+b: 122.0
+asimov: 72.1310619207
+     epoch 65, minibatch 53/53, test error of best model 12.750000 %
+epoch 66, minibatch 53/53, validation error 12.805556 %
+epoch 67, minibatch 53/53, validation error 12.805556 %
+epoch 68, minibatch 53/53, validation error 12.805556 %
+epoch 69, minibatch 53/53, validation error 12.805556 %
+epoch 70, minibatch 53/53, validation error 12.805556 %
+epoch 71, minibatch 53/53, validation error 12.805556 %
+epoch 72, minibatch 53/53, validation error 12.805556 %
+epoch 73, minibatch 53/53, validation error 12.805556 %
+epoch 74, minibatch 53/53, validation error 12.805556 %
+epoch 75, minibatch 53/53, validation error 12.805556 %
+epoch 76, minibatch 53/53, validation error 12.805556 %
+epoch 77, minibatch 53/53, validation error 12.805556 %
+epoch 78, minibatch 53/53, validation error 12.833333 %
+epoch 79, minibatch 53/53, validation error 12.805556 %
+epoch 80, minibatch 53/53, validation error 12.805556 %
+epoch 81, minibatch 53/53, validation error 12.888889 %
+epoch 82, minibatch 53/53, validation error 12.888889 %
+epoch 83, minibatch 53/53, validation error 12.861111 %
+epoch 84, minibatch 53/53, validation error 12.861111 %
+epoch 85, minibatch 53/53, validation error 12.861111 %
+epoch 86, minibatch 53/53, validation error 12.861111 %
+epoch 87, minibatch 53/53, validation error 12.861111 %
+epoch 88, minibatch 53/53, validation error 12.833333 %
+epoch 89, minibatch 53/53, validation error 12.805556 %
+epoch 90, minibatch 53/53, validation error 12.805556 %
+epoch 91, minibatch 53/53, validation error 12.805556 %
+epoch 92, minibatch 53/53, validation error 12.833333 %
+epoch 93, minibatch 53/53, validation error 12.833333 %
+epoch 94, minibatch 53/53, validation error 12.833333 %
+epoch 95, minibatch 53/53, validation error 12.833333 %
+epoch 96, minibatch 53/53, validation error 12.833333 %
+epoch 97, minibatch 53/53, validation error 12.805556 %
+epoch 98, minibatch 53/53, validation error 12.833333 %
+epoch 99, minibatch 53/53, validation error 12.833333 %
+epoch 100, minibatch 53/53, validation error 12.833333 %
+epoch 101, minibatch 53/53, validation error 12.833333 %
+epoch 102, minibatch 53/53, validation error 12.777778 %
+S: 1800.0
+B: 1800.0
+s: 1468.0
+b: 125.0
+asimov: 71.9205324252
+     epoch 102, minibatch 53/53, test error of best model 12.694444 %
+epoch 103, minibatch 53/53, validation error 12.750000 %
+S: 1800.0
+B: 1800.0
+s: 1468.0
+b: 125.0
+asimov: 71.9205324252
+     epoch 103, minibatch 53/53, test error of best model 12.694444 %
+epoch 104, minibatch 53/53, validation error 12.750000 %
+epoch 105, minibatch 53/53, validation error 12.750000 %
+epoch 106, minibatch 53/53, validation error 12.750000 %
+epoch 107, minibatch 53/53, validation error 12.750000 %
+epoch 108, minibatch 53/53, validation error 12.750000 %
+epoch 109, minibatch 53/53, validation error 12.750000 %
+epoch 110, minibatch 53/53, validation error 12.750000 %
+epoch 111, minibatch 53/53, validation error 12.750000 %
+epoch 112, minibatch 53/53, validation error 12.750000 %
+epoch 113, minibatch 53/53, validation error 12.777778 %
+epoch 114, minibatch 53/53, validation error 12.777778 %
+epoch 115, minibatch 53/53, validation error 12.777778 %
+epoch 116, minibatch 53/53, validation error 12.777778 %
+epoch 117, minibatch 53/53, validation error 12.777778 %
+epoch 118, minibatch 53/53, validation error 12.777778 %
+epoch 119, minibatch 53/53, validation error 12.777778 %
+epoch 120, minibatch 53/53, validation error 12.777778 %
+epoch 121, minibatch 53/53, validation error 12.750000 %
+S: 1800.0
+B: 1800.0
+s: 1469.0
+b: 126.0
+asimov: 71.828457281
+     epoch 121, minibatch 53/53, test error of best model 12.694444 %
+epoch 122, minibatch 53/53, validation error 12.750000 %
+epoch 123, minibatch 53/53, validation error 12.750000 %
+epoch 124, minibatch 53/53, validation error 12.750000 %
+epoch 125, minibatch 53/53, validation error 12.750000 %
+epoch 126, minibatch 53/53, validation error 12.750000 %
+epoch 127, minibatch 53/53, validation error 12.750000 %
+epoch 128, minibatch 53/53, validation error 12.750000 %
+epoch 129, minibatch 53/53, validation error 12.750000 %
+epoch 130, minibatch 53/53, validation error 12.750000 %
+epoch 131, minibatch 53/53, validation error 12.750000 %
+epoch 132, minibatch 53/53, validation error 12.750000 %
+epoch 133, minibatch 53/53, validation error 12.750000 %
+epoch 134, minibatch 53/53, validation error 12.750000 %
+epoch 135, minibatch 53/53, validation error 12The code for file mlp.pyc ran for 0.29m
+.750000 %
+epoch 136, minibatch 53/53, validation error 12.750000 %
+epoch 137, minibatch 53/53, validation error 12.750000 %
+epoch 138, minibatch 53/53, validation error 12.750000 %
+epoch 139, minibatch 53/53, validation error 12.750000 %
+epoch 140, minibatch 53/53, validation error 12.750000 %
+epoch 141, minibatch 53/53, validation error 12.750000 %
+epoch 142, minibatch 53/53, validation error 12.750000 %
+epoch 143, minibatch 53/53, validation error 12.750000 %
+epoch 144, minibatch 53/53, validation error 12.750000 %
+epoch 145, minibatch 53/53, validation error 12.750000 %
+epoch 146, minibatch 53/53, validation error 12.750000 %
+epoch 147, minibatch 53/53, validation error 12.750000 %
+epoch 148, minibatch 53/53, validation error 12.750000 %
+epoch 149, minibatch 53/53, validation error 12.750000 %
+epoch 150, minibatch 53/53, validation error 12.722222 %
+S: 1800.0
+B: 1800.0
+s: 1469.0
+b: 127.0
+asimov: 71.7019613639
+     epoch 150, minibatch 53/53, test error of best model 12.722222 %
+epoch 151, minibatch 53/53, validation error 12.722222 %
+epoch 152, minibatch 53/53, validation error 12.722222 %
+epoch 153, minibatch 53/53, validation error 12.722222 %
+epoch 154, minibatch 53/53, validation error 12.722222 %
+epoch 155, minibatch 53/53, validation error 12.722222 %
+epoch 156, minibatch 53/53, validation error 12.722222 %
+epoch 157, minibatch 53/53, validation error 12.694444 %
+S: 1800.0
+B: 1800.0
+s: 1469.0
+b: 127.0
+asimov: 71.7019613639
+     epoch 157, minibatch 53/53, test error of best model 12.722222 %
+epoch 158, minibatch 53/53, validation error 12.694444 %
+epoch 159, minibatch 53/53, validation error 12.694444 %
+epoch 160, minibatch 53/53, validation error 12.694444 %
+epoch 161, minibatch 53/53, validation error 12.694444 %
+epoch 162, minibatch 53/53, validation error 12.694444 %
+epoch 163, minibatch 53/53, validation error 12.694444 %
+epoch 164, minibatch 53/53, validation error 12.694444 %
+epoch 165, minibatch 53/53, validation error 12.694444 %
+epoch 166, minibatch 53/53, validation error 12.694444 %
+epoch 167, minibatch 53/53, validation error 12.694444 %
+epoch 168, minibatch 53/53, validation error 12.694444 %
+epoch 169, minibatch 53/53, validation error 12.694444 %
+epoch 170, minibatch 53/53, validation error 12.694444 %
+epoch 171, minibatch 53/53, validation error 12.694444 %
+epoch 172, minibatch 53/53, validation error 12.694444 %
+epoch 173, minibatch 53/53, validation error 12.694444 %
+epoch 174, minibatch 53/53, validation error 12.694444 %
+epoch 175, minibatch 53/53, validation error 12.694444 %
+epoch 176, minibatch 53/53, validation error 12.694444 %
+epoch 177, minibatch 53/53, validation error 12.694444 %
+epoch 178, minibatch 53/53, validation error 12.666667 %
+S: 1800.0
+B: 1800.0
+s: 1469.0
+b: 127.0
+asimov: 71.7019613639
+     epoch 178, minibatch 53/53, test error of best model 12.722222 %
+epoch 179, minibatch 53/53, validation error 12.666667 %
+epoch 180, minibatch 53/53, validation error 12.666667 %
+epoch 181, minibatch 53/53, validation error 12.666667 %
+epoch 182, minibatch 53/53, validation error 12.666667 %
+epoch 183, minibatch 53/53, validation error 12.666667 %
+epoch 184, minibatch 53/53, validation error 12.666667 %
+epoch 185, minibatch 53/53, validation error 12.666667 %
+epoch 186, minibatch 53/53, validation error 12.666667 %
+epoch 187, minibatch 53/53, validation error 12.666667 %
+epoch 188, minibatch 53/53, validation error 12.666667 %
+Optimization complete. Best validation score of 12.666667 % obtained at iteration 9434, with test performance 12.722222 %
+improvement_threshold 0.995
+learning_rate 0.998
+batch_size 600
+n_epochs 10000
+patience 10000
+submit_threshold 0.5
+patience_increase 2
+L1_reg 5e-05
+n_hidden 50
+L2_reg 5e-06
+Values: ~[ improvement_threshold, learning_rate, batch_size, n_epochs, patience, submit_threshold, patience_increase, L1_reg, n_hidden, L2_reg, test_score, test_std_dev, walltime]~
+Matrix: {[ 0.995, 0.998, 600, 10000, 10000, 0.5, 2, 5e-05, 50, 5e-06, 12.7222222222,0.443865363489,0.290833333333]}
+efficiencies_i
+(1.0, 0.0)
+efficiencies_i
+(0.9655555555555555, 0.49111111111111116INFO (theano.gof.compilelock): Waiting for existing lock by process '7357' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '6258' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '22871' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '22871' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '6258' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+INFO (theano.gof.compilelock): Waiting for existing lock by process '6258' (I am process '13217')
+INFO (theano.gof.compilelock): To manually release the lock, delete /g01/home/jpearkes/.theano/compiledir_Linux-2.6.32-431.40.2.el6.nsc1.x86_64-x86_64-with-redhat-6.5-Carbon-x86_64-2.7.2-64/lock_dir
+The pretraining code for file SdA_batch.pyc ran for 6.00m
+)
+efficiencies_i
+(0.9161111111111111, 0.76000000000000001)
+efficiencies_i
+(0.87, 0.85444444444444445)
+efficiencies_i
+(0.84222222222222221, 0.90333333333333332)
+efficiencies_i
+(0.81611111111111112, 0.92944444444444441)
+efficiencies_i
+(0.78388888888888886, 0.94888888888888889)
+efficiencies_i
+(0.745, 0.9622222222222222)
+efficiencies_i
+(0.69611111111111112, 0.97666666666666668)
+efficiencies_i
+(0.61777777777777776, 0.98888888888888893)
+efficiencies_i
+(0.0, 1.0)
+[[ 1.          0.        ]
+ [ 0.96555556  0.49111111]
+ [ 0.91611111  0.76      ]
+ [ 0.87        0.85444444]
+ [ 0.84222222  0.90333333]
+ [ 0.81611111  0.92944444]
+ [ 0.78388889  0.94888889]
+ [ 0.745       0.96222222]
+ [ 0.69611111  0.97666667]
+ [ 0.61777778  0.98888889]
+ [ 0.          1.        ]]
+sig_eff
+[ 1.          0.96555556  0.91611111  0.87        0.84222222  0.81611111
+  0.78388889  0.745       0.69611111  0.61777778  0.        ]
+bg_eff
+[ 0.          0.49111111  0.76        0.85444444  0.90333333  0.92944444
+  0.94888889  0.96222222  0.97666667  0.98888889  1.        ]
+loading data
+Using high level inputs
+x_size
+80000
+y_size
+40000
+width_x
+2
+data is being converted into theano shared_dataset
+... building the model
+... getting the pretraining functions
+... pre-training the model
+Pre-training layer 0, epoch 0, cost  1.07912498709
+Pre-training layer 0, epoch 1, cost  0.570452499758
+Pre-training layer 0, epoch 2, cost  0.563175365888
+Pre-training layer 0, epoch 3, cost  0.55822071553
+Pre-training layer 0, epoch 4, cost  0.549969742383
+Pre-training layer 0, epoch 5, cost  0.533544488583
+Pre-training layer 0, epoch 6, cost  0.527226855051
+Pre-training layer 0, epoch 7, cost  0.519692333604
+Pre-training layer 0, epoch 8, cost  0.522515182427
+Pre-training layer 0, epoch 9, cost  0.51914180554
+Pre-training layer 0, epoch 10, cost  0.520215354596
+Pre-training layer 0, epoch 11, cost  0.521874450137
+Pre-training layer 0, epoch 12, cost  0.51948402565
+Pre-training layer 0, epoch 13, cost  0.515891972251
+Pre-training layer 0, epoch 14, cost  0.518395430074
+Pre-training layer 1, epoch 0, cost  22.5561882353
+Pre-training layer 1, epoch 1, cost  21.8865103404
+Pre-training layer 1, epoch 2, cost  21.8252378162
+Pre-training layer 1, epoch 3, cost  21.7989925958
+Pre-training layer 1, epoch 4, cost  21.7825763426
+Pre-training layer 1, epoch 5, cost  21.7700648575
+Pre-training layer 1, epoch 6, cost  21.7646095068
+Pre-training layer 1, epoch 7, cost  21.7598984618
+Pre-training layer 1, epoch 8, cost  21.7555912625
+Pre-training layer 1, epoch 9, cost  21.7537901487
+Pre-training layer 1, epoch 10, cost  21.7510388273
+Pre-training layer 1, epoch 11, cost  21.7499780258
+Pre-training layer 1, epoch 12, cost  21.7481215526
+Pre-training layer 1, epoch 13, cost  21.745863228
+Pre-training layer 1, epoch 14, cost  21.7450266377
+Pre-training layer 2, epoch 0, cost  3.5118553689
+Pre-training layer 2, epoch 1, cost  3.00069181909
+Pre-training layer 2, epoch 2, cost  2.97009536026
+Pre-training layer 2, epoch 3, cost  2.95679450925
+Pre-training layer 2, epoch 4, cost  2.94988494552
+Pre-training layer 2, epoch 5, cost  2.94564315279
+Pre-training layer 2, epoch 6, cost  2.94284037291
+Pre-training layer 2, epoch 7, cost  2.94029652582
+Pre-training layer 2, epoch 8, cost  2.93848094493
+Pre-training layer 2, epoch 9, cost  2.93750355154
+Pre-training layer 2, epoch 10, cost  2.93649862152
+Pre-training layer 2, epoch 11, cost  2.93545925378
+Pre-training layer 2, epoch 12, cost  2.93541213968
+Pre-training layer 2, epoch 13, cost  2.93424078213
+Pre-training layer 2, epoch 14, cost  2.9341678003
+... getting the finetuning functions
+... finetunning the model
+epoch 1, minibatch 5000/32000, validation error 13.900000 %
+S: 2000.0
+B: 2000.0
+s: 1571.0
+b: 94.0
+asimov: 80.1833593402
+     epoch 1, minibatch 5000/32000, test error of best model 13.075000 %
+epoch 1, minibatch 10000/32000, validation error 12.800000 %
+S: 2000.0
+B: 2000.0
+s: 1673.0
+b: 170.0
+asimov: 73.7498047794
+     epoch 1, minibatch 10000/32000, test error of best model 12.425000 %
+epoch 1, minibatch 15000/32000, validation error 13.775000 %
+OptimizatThe training code for file SdA_batch.pyc ran for 0.09m
+ion complete with best validation score of 12.800000 %, on iteration 10000, with test performance 12.425000 %
+neurons_per_layer 32
+improvement_threshold 0.995
+number_of_layers 3
+finetune_lr 0.1
+batch_size 1
+pretrain_lr 0.001
+patience 19998
+submit_threshold 0.5
+patience_increase 2
+pretraining_epochs 15
+training_epochs 1000
+Values: ~[ neurons_per_layer, improvement_threshold, number_of_layers, finetune_lr, batch_size, pretrain_lr, patience, submit_threshold, patience_increase, pretraining_epochs, training_epochs, test_score, test_std_dev, walltime]~
+Matrix: {[ 32, 0.995, 3, 0.1, 1, 0.001, 19998, 0.5, 2, 15, 1000, 12.425,0.521564803021,0.0925]}
+efficiencies_i
+(1.0, 0.0)
+efficiencies_i
+(0.97499999999999998, 0.39100000000000001)
+efficiencies_i
+(0.92400000000000004, 0.71899999999999997)
+efficiencies_i
+(0.88900000000000001, 0.82299999999999995)
+efficiencies_i
+(0.86099999999999999, 0.88200000000000001)
+efficiencies_i
+(0.83650000000000002, 0.91500000000000004)
+efficiencies_i
+(0.8145, 0.93599999999999994)
+efficiencies_i
+(0.79000000000000004, 0.95099999999999996)
+efficiencies_i
+(0.75949999999999995, 0.96350000000000002)
+efficiencies_i
+(0.6915, 0.97999999999999998)
+efficiencies_i
+(0.0, 1.0)
+[[ 1.      0.    ]
+ [ 0.975   0.391 ]
+ [ 0.924   0.719 ]
+ [ 0.889   0.823 ]
+ [ 0.861   0.882 ]
+ [ 0.8365  0.915 ]
+ [ 0.8145  0.936 ]
+ [ 0.79    0.951 ]
+ [ 0.7595  0.9635]
+ [ 0.6915  0.98  ]
+ [ 0.      1.    ]]
+sig_eff
+[ 1.      0.975   0.924   0.889   0.861   0.8365  0.8145  0.79    0.7595
+  0.6915  0.    ]
+bg_eff
+[ 0.      0.391   0.719   0.823   0.882   0.915   0.936   0.951   0.9635
+  0.98    1.    ]
+Program mlp finished with exit code 0 at: Tue Jul 28 14:07:36 PDT 2015
+----------------------------------------
+Begin PBS Epilogue Tue Jul 28 14:07:41 PDT 2015 1438117661
+Job ID:		30417599.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Job Name:	linear_search
+Session:	13080
+Limits:		mem=4gb,neednodes=hermes-general,pmem=512mb,procs=1,walltime=00:20:00
+Resources:	cput=00:07:16,mem=130108kb,vmem=880332kb,walltime=00:11:35
+Queue:		hermes
+Account:		
+Nodes:	hermes0132
+Killing leftovers...
+
+End PBS Epilogue Tue Jul 28 14:07:41 PDT 2015 1438117661
+----------------------------------------

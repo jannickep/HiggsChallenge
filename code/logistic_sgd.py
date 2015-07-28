@@ -18,6 +18,7 @@ import theano.tensor as T
 from random import shuffle
 import matplotlib 
 import matplotlib.pyplot as plt
+from my_utils import *#load_data
 
 class LogisticRegression(object):
     def __init__(self, input, n_in, n_out, discriminant_threshold):
@@ -79,6 +80,7 @@ class LogisticRegression(object):
         else:
             raise NotImplementedError()
 
+
     def asimov_errors(self, y):
         # check if y has same dimension of y_pred
         if y.ndim != self.y_pred.ndim:
@@ -97,7 +99,11 @@ class LogisticRegression(object):
         else:
             raise NotImplementedError()
 
+    def prediction(self,y):
+        p_y_and_y = self.p_y_given_x[:,1], y
+        return  p_y_and_y
 
+'''
 def load_data():
 
     #############
@@ -157,77 +163,16 @@ def load_data():
 
     rval = [(train_set_x, train_set_y, train_set_w), (valid_set_x, valid_set_y, valid_set_w),(test_set_x, test_set_y, test_set_w)]
     return rval
+'''
 
-def plot_improvement(measures):
-    n_events = measures[:,0]
-    percent = 1-measures[:,1]
-    S = measures[:,2]
-    B = measures[:,3]
-    s = measures[:,4]
-    b = measures[:,5]
-    s_sqrt_b = np.sqrt(np.divide(s,b))
-    sig_eff = np.divide(s,S)
-    bg_eff = np.divide(b,B)
-    purity = np.divide(s,np.add(s,b))
-    #print "measures:"
-    #print measures
-    print " n_events"
-    print n_events
-    print "percent"
-    print percent
-    plt.figure(0)
-    plt.plot(n_events,percent,label = "Percent Accuracy (%)")
-    #plt.plot(n_events,S,label = "S")
-    #plt.plot(n_events,B,label = "B")
-    #plt.plot(n_events,s,label = "s")
-    #plt.plot(n_events,b,label = "b")
-    #plt.plot(n_events,s_sqrt_b,label = "s/sqrt(b)")
-    plt.plot(n_events,sig_eff,label = "signal efficiency (s/S)")
-    plt.plot(n_events,bg_eff,label = "background efficiency (b/B)")
-    #plt.plot(n_events,purity,label = "purity (s/(s+b))")
-    plt.title("Improvement with Increased Training")
-    plt.xlabel("Number of Training Epochs")
-    plt.ylabel(" ")
-    plt.legend(loc='lower right', shadow=False, ncol=1)
-    plt.savefig("improvement.pdf")
-    
  
-def plot_roc(measures):
-    '''
-    plt.figure(1)
-    n_events = measures[:,0]
-    percent = 1-measures[:,1]
-    S = measures[:,2]
-    B = measures[:,3]
-    s = measures[:,4]
-    b = measures[:,5]
-    s_sqrt_b = np.sqrt(np.divide(s,b))
-    sig_eff = np.divide(s,S)
-    bg_eff = 1-np.divide(b,B)
-    purity = np.divide(s,np.add(s,b))
-    #print "measures:"
-    #print measures
-    print " n_events"
-    print n_events
-    print "percent"
-    print percent
-    print "sig_eff"
-    print sig_eff
-    print "bg_eff"
-    print bg_eff
-    plt.plot(sig_eff,bg_eff,label = "ROC Curve")
-    plt.title("ROC Curve")
-    plt.xlabel("Signal Efficiency")
-    plt.ylabel("1 - Background Efficiency")
-    plt.legend(loc='lower right', shadow=False, ncol=1)
-    plt.savefig("roc.pdf")
-    '''
+
 def sgd_optimization(learning_rate, n_epochs,
                            batch_size, patience, 
                            patience_increase, improvement_threshold,
                            submit_threshold):
     measures = np.array([]).reshape(0,6)
-    datasets = load_data()
+    datasets,width_x = load_data()
     
     print 'finished loading data'
     # unpack datasets
@@ -243,9 +188,10 @@ def sgd_optimization(learning_rate, n_epochs,
     ######################
     # BUILD ACTUAL MODEL #
     ######################
-    #width_x,len_y = T.shape(train_set_x)
+    #print train_set_x.size.eval()
+    #width_x= train_set_x.size.eval()
 
-    width_x =5 #Change this
+    #width_x =5 #Change this
     print '... building the model'
 
     # allocate symbolic variables for the data
@@ -289,6 +235,17 @@ def sgd_optimization(learning_rate, n_epochs,
             #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
         }
     )
+
+    get_prediction_model = theano.function(
+        inputs=[index],
+        outputs=classifier.prediction(y),
+        givens={
+            x: test_set_x[index * batch_size: (index + 1) * batch_size],
+            y: test_set_y[index * batch_size: (index + 1) * batch_size]
+            #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
+        }
+    )
+
     output_model = theano.function(
         inputs=[index],
         outputs=classifier.pred(x),
@@ -390,6 +347,9 @@ def sgd_optimization(learning_rate, n_epochs,
                                    for i in xrange(n_test_batches)]
                     y_pred = np.array([output_model(i)
                                    for i in xrange(n_test_batches)])
+                    p_y_and_y = np.vstack([np.reshape(np.ravel(get_prediction_model(i), order='F'),(-1,2))
+                                   for i in xrange(n_test_batches)])
+                    #p_y_and_y = np.reshape(p_y_and_y, (-1,2))
                     ### think problem is here
                     test_score = numpy.mean(test_losses)
                     #-----------------
@@ -414,7 +374,6 @@ def sgd_optimization(learning_rate, n_epochs,
                     print "asimov: "+str(asimov_sig)
                     n_events = epoch
                     measures = np.vstack((measures,np.array([n_events,test_score, S,B,s,b])))
-
                     #-----------------------
                     print(('     epoch %i, minibatch %i/%i, test error of'
                            ' best model %f %%') %
@@ -446,7 +405,8 @@ def sgd_optimization(learning_rate, n_epochs,
     print met 
     results = (met, test_losses)
     last_measures = np.array([submit_threshold,test_score, S,B,s,b])
-    plot_improvement(measures)
+    p_y_and_y 
+    #plot_improvement(measures)
 
     print (('The code ran for %d epochs, with %f epochs/sec') % 
           (epoch, 1. * epoch / (end_time - start_time)))
@@ -496,10 +456,14 @@ def sgd_optimization(learning_rate, n_epochs,
         print('submission is being saved')
         np.savetxt("submission.csv",submission,fmt='%s',delimiter=',')
         print('complete')
-    return last_measures
+    #return last_measures
     #return results
+    #return measures
+    print "p_y_and_y"
+    print p_y_and_y
+    return p_y_and_y
 
-
+'''
 def roc_run():
     measures2 = np.array([]).reshape(0,6)
     for i in np.arange(0,1.2,0.2):
@@ -514,50 +478,11 @@ def roc_run():
         last_measures = sgd_optimization(**parameters)
         measures2 = np.vstack((measures2,last_measures))
     plot_roc(measures2)
+'''
 
-def turn_on_curve():
-    print "Using hard-coded values"
-    parameters = dict(
-        learning_rate = 0.13, 
-        n_epochs = 1000,
-        batch_size = 600,
-        patience = 5000, 
-        patience_increase = 2,
-        improvement_threshold = 0.995,
-        submit_threshold = 0.5)
-    measures = sgd_optimization(**parameters)
-    print "measures" 
-    print measures
-    #measures3 = np.array([]).reshape(0,7)
-    MET = measures[0]
-    print "MET"
-    print MET
-    y_prediction = measures[1]
-    print "y-pred"
-    print y_prediction
-    #sum_y = sum(y_prediction)
-    min_x_calc = min(MET)
-    max_x_calc = max(MET)
-    binwidth = (max_x_calc-min_x_calc)/100
-    p1 = plt.hist( MET,
-                #range=[min_x_calc,max_x_calc],
-                bins = np.arange(min_x_calc, max_x_calc + binwidth, binwidth),
-                weights = y_prediction)#,
-    '''
-    label = ,
-    linewidth = 0.0, 
-    edgecolor = None,
-    histtype = 'barstacked',
-    color = ['blue','red'],
-    alpha = 0.8 )
-    '''
-    plt.title("Turn On Curve")
-    plt.xlabel("MET (GeV)")
-    plt.ylabel("Signal efficiency")
-    plt.savefig("turn_on_curve"+".pdf")
 
 if __name__ == '__main__':
-    if len(sys.argv)>1:
+    if len(sys.argv)>2:
         print "Using passed values"
         name,batch_size,improvement_threshold,learning_rate,n_epochs,patience,patience_increase,submit_threshold = sys.argv
         parameters = dict(

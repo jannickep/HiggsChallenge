@@ -57,10 +57,8 @@ class HiddenLayer(object):
 
 
 class MLP(object):
-    """Multi-Layer Perceptron Class
-    """
 
-    def __init__(self, rng, input, n_in, n_hidden, n_out):
+    def __init__(self, rng, input, n_in, n_hidden, n_out,discriminant_threshold):
         self.hiddenLayer = HiddenLayer(
             rng=rng,
             input=input,
@@ -72,8 +70,10 @@ class MLP(object):
         self.logRegressionLayer = LogisticRegression(
             input=self.hiddenLayer.output,
             n_in=n_hidden,
-            n_out=n_out
+            n_out=n_out,
+            discriminant_threshold = discriminant_threshold
         )
+
         self.L1 = (
             abs(self.hiddenLayer.W).sum()
             + abs(self.logRegressionLayer.W).sum()
@@ -88,6 +88,9 @@ class MLP(object):
         self.errors = self.logRegressionLayer.errors
         self.params = self.hiddenLayer.params + self.logRegressionLayer.params
         self.layers = [self.hiddenLayer, self.logRegressionLayer] 
+        self.ypred = self.logRegressionLayer.y_pred
+        self.py_given_x = self.logRegressionLayer.p_y_given_x
+
     def output(self, x):
         print "x"
         #print x.eval()
@@ -98,6 +101,27 @@ class MLP(object):
         print "z"
         #print z
         return z
+    def asimov_errors(self, y):
+        # check if y has same dimension of y_pred
+        if y.ndim != self.logRegressionLayer.y_pred.ndim:
+            raise TypeError(
+                'y should have the same shape as self.y_pred',
+                ('y', y.type, 'y_pred', self.y_pred.type)
+            )
+        # check if y is of the correct datatype
+        if y.dtype.startswith('int'):
+            S = T.sum(T.eq(y,1))
+            B = T.sum(T.eq(y,0))#*10000 # TODO: cross-section scaling
+            s = T.sum(T.and_(T.eq(y,1),T.eq(self.logRegressionLayer.y_pred,1)))
+            b = T.sum(T.and_(T.eq(y,0),T.eq(self.logRegressionLayer.y_pred,1)))#*10000 TODO: cross-section scaling
+            return(S,B,s,b)
+            # represents a mistake in prediction
+        else:
+            raise NotImplementedError()
+
+    def prediction(self,y):
+        p_y_and_y = self.logRegressionLayer.p_y_given_x[:,1], y
+        return  p_y_and_y
 
 
 #def test_mlp(learning_rate=0.998, L1_reg=0.00005, L2_reg=0.000005,n_epochs=10000, 
@@ -114,8 +138,8 @@ def test_mlp(learning_rate,
                   improvement_threshold,
                   submit_threshold):
 
-  
-    datasets = load_data()
+    measures = np.array([]).reshape(0,6)
+    datasets,width_x = load_data()
     train_set_x, train_set_y, train_set_w = datasets[0]
     valid_set_x, valid_set_y, valid_set_w = datasets[1]
     test_set_x, test_set_y, test_set_w = datasets[2]
@@ -143,9 +167,11 @@ def test_mlp(learning_rate,
         input=x,
         #n_in=30,
         #n_in=4,
-        n_in=4,
+        #n_in=5,
+        n_in = width_x,
         n_hidden=n_hidden,
-        n_out=2
+        n_out=2,
+        discriminant_threshold = submit_threshold
     )
 
 
@@ -167,6 +193,26 @@ def test_mlp(learning_rate,
         givens={
             x: test_set_x[index * batch_size:(index + 1) * batch_size],
             y: test_set_y[index * batch_size:(index + 1) * batch_size]
+        }
+    )
+
+    test_asimov_model = theano.function(
+        inputs=[index],
+        outputs=classifier.asimov_errors(y),
+        givens={
+            x: test_set_x[index * batch_size: (index + 1) * batch_size],
+            y: test_set_y[index * batch_size: (index + 1) * batch_size]
+            #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
+        }
+    )
+
+    get_prediction_model = theano.function(
+        inputs=[index],
+        outputs=classifier.prediction(y),
+        givens={
+            x: test_set_x[index * batch_size: (index + 1) * batch_size],
+            y: test_set_y[index * batch_size: (index + 1) * batch_size]
+            #w: test_set_w[index * batch_size: (index + 1) * batch_size] #JP
         }
     )
 
@@ -274,8 +320,30 @@ def test_mlp(learning_rate,
                     # test it on the test set
                     test_losses = [test_model(i) for i
                                    in xrange(n_test_batches)]
+                    p_y_and_y = np.vstack([np.reshape(np.ravel(get_prediction_model(i), order='F'),(-1,2))
+                                   for i in xrange(n_test_batches)])
                     test_score = numpy.mean(test_losses)
                     test_std_dev = numpy.std(test_losses)/math.sqrt(len(test_losses))
+                    output= np.sum([test_asimov_model(i) 
+                                   for i in xrange(n_test_batches)], axis = 0)
+                    S,B,s,b= output
+                    S = float(S)
+                    B = float(B)
+                    s = float(s)
+                    b = float(b)
+                    print "S: "+str(S)
+                    print "B: "+str(B)
+                    print "s: "+str(s)
+                    print "b: "+str(b)
+                    #asimov_sig = (s/math.sqrt(b)) #approximation 
+                    if(b!=0):
+                        asimov_sig = math.sqrt(2*((s+b)*math.log(1+s/b)-s))#math.sqrt(2(s+b))#*math.log(1+s/b)-s))
+                    else:
+                        asimov_sig = 10000
+                    print "asimov: "+str(asimov_sig)
+                    n_events = epoch
+                    measures = np.vstack((measures,np.array([n_events,test_score, S,B,s,b])))
+
                     #test_std_dev = numpy.std(test_losses)
                     print(('     epoch %i, minibatch %i/%i, test error of '
                            'best model %f %%') %
@@ -317,8 +385,8 @@ def test_mlp(learning_rate,
         print (str(value)+","),
     print (str(test_score*100)+","+str(test_std_dev*100)+","
            +str((end_time-start_time)/60.0)+"]}")
-
-
+    #return measures
+    return p_y_and_y
     ######################
     # COMPUTE SUBMISSION #
     ######################
@@ -360,7 +428,7 @@ def test_mlp(learning_rate,
 
 if __name__ == '__main__':
     # Created dictionary to make things "slightly" less complicated with this number of parameters
-    if len(sys.argv)>1:
+    if len(sys.argv)>2:
         print "Using passed parameters"
         name,L1_reg, L2_reg,batch_size,improvement_threshold,learning_rate,n_epochs,n_hidden,patience,patience_increase,submit_threshold = sys.argv
         parameters = dict(

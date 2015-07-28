@@ -1,0 +1,26 @@
+----------------------------------------
+Begin PBS Prologue Tue Jul 28 10:58:38 PDT 2015 1438106318
+Job ID:		30417277.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Nodes:		hermes0094
+End PBS Prologue Tue Jul 28 10:58:39 PDT 2015 1438106319
+----------------------------------------
+Current working directory is /home/jpearkes/HiggsChallenge/code
+Starting run at: Tue Jul 28 10:58:39 PDT 2015
+----------------------------------------
+Begin PBS Epilogue Tue Jul 28 10:59:21 PDT 2015 1438106361
+Job ID:		30417277.moab01.westgrid.uvic.ca
+Username:	jpearkes
+Group:		jpearkes
+Job Name:	roc_pbs.pbs
+Session:	14250
+Limits:		neednodes=hermes-general,pmem=512mb,walltime=00:01:00
+Resources:	cput=00:00:00,mem=31120kb,vmem=253132kb,walltime=00:00:38
+Queue:		hermes
+Account:		
+Nodes:	hermes0094
+Killing leftovers...
+
+End PBS Epilogue Tue Jul 28 10:59:22 PDT 2015 1438106362
+----------------------------------------
